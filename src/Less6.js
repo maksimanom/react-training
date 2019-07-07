@@ -26,14 +26,20 @@ import React from 'react';
 
 
 const Lesson6 = () => {
-	const [value, setValue] = React.useState("PRIVET");
-	const handleChange = (event) => {
-		setValue(event.target.value);
-	}
+	const [items, setItems] = React.useState([1,2,3,4,5]);
+	const list = items.map((item,index) => {
+		return( <li key={index}> {item} </li> )
+	});
+	const handleClick = (event) => {
+		setItems(items.push("kek"));
+	};
 	return(
-		<div>
-			<input onChange={handleChange} value={value}/>
-		</div>
+		<>
+		<ul>
+			{list}
+		</ul>
+		<button name="addItemFromInput" onClick={handleClick}>Add item</button>
+		</>
 	);
 	
 }
