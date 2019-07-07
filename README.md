@@ -1,3 +1,5 @@
+Trained by tutorial: http://bit.ly/2XsF7iB
+Started with Lesson #5
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
