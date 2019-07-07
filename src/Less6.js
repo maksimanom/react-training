@@ -29,8 +29,7 @@ const Lesson6 = () => {
 	const [items, setItems] = React.useState([1,2,3,4,5]);
 	const handleClick = (event) => {
 		console.log(items);
-		items.push("lol");
-		return (setItems(items));
+		return (setItems(items.concat("kek")));
 	};
 	const list = items.map((item,index) => {
 		return( <li key={index}> {item} </li> )
