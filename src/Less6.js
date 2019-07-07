@@ -34,7 +34,7 @@ const Lesson6 = () => {
 	};
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		return (setItems(items.concat({value})));
+		return (setItems(items.concat(value)));
 	};
 	const handleChange = (event) => {
 		setValue(event.target.value);
