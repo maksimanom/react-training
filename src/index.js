@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Lesson5 from './less5';
 
 ReactDOM.render(
-    <Lesson5/>,
-    document.getElementById('root')
+  <Lesson5 />,
+  document.getElementById('root')
 );
 
 

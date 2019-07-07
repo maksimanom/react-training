@@ -1,41 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Lesson5 extends React.Component{
-    constructor() {
-		super();
-		this.state = {items: [1, 2, 3, 4, 5]};
+class Lesson5 extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      names: ['Коля', 'Вася', 'Петя', 'Иван', 'Дима']
     }
-    
-    addItem(){
-        this.state.items.push("+1 punkt");
-        this.setState({items: this.state.items});
-    }
-    deleteItem(){
-        this.state.items.splice(3, 1);
-        this.setState({items: this.state.items});
-    }
+  }
 
-	render() {
-		const list = this.state.items.map((item, index) => {
-			return <li key={index}>{item}</li>;
-		});
+  addItem() {
+    let text = "item added by pressing a button";
+    this.state.names.push(text);
+    this.setState({ names: this.state.names });
+  }
+  deleteItem(num){
+    this.state.names.splice(num, 1);
+    this.setState({names : this.state.names});
+  }
 
-		return (
-			<div>
-				<ul>
-                    <button onClick={this.addItem.bind(this)}>Add</button>
-                    <button onClick={this.deleteItem.bind(this)}>Delete Item</button>
-					{list}
-				</ul>
-			</div>
-		);
-	}
+  render() {
+    let list = this.state.names.map((item, index) => {
+      return <li key={index}>{item} <button onClick={this.deleteItem.bind(this, index)}>delete me</button></li>
+    });
+    return (
+      <div>
+        <ul>
+          {list}
+        </ul>
+        <button onClick={this.addItem.bind(this)}>Add item</button>
+        <button onClick={this.deleteItem.bind(this, this.state.names.length-1)}>Delete last item</button>
+      </div>
+    );
+  }
 }
 
 export default Lesson5;
-
-ReactDOM.render(
-    <Lesson5/>,
-    document.getElementById('root')
-);
