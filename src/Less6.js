@@ -27,9 +27,18 @@ import React from 'react';
 
 const Lesson6 = () => {
 	const [items, setItems] = React.useState([1,2,3,4,5]);
+	const [value, setValue] = React.useState("");
 	const handleClick = (event) => {
 		console.log(items);
-		return (setItems(items.concat("kek")));
+		return (setItems(items.concat({value})));
+	};
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		return (setItems(items.concat({value})));
+	};
+	const handleChange = (event) => {
+		setValue(event.target.value);
+		console.log("value = " + value);
 	};
 	const list = items.map((item,index) => {
 		return( <li key={index}> {item} </li> )
@@ -37,9 +46,14 @@ const Lesson6 = () => {
 	return(
 		<>
 		<ul>
-			{list}
+			{items.map((item,index) => {
+				return( <li key={index}> {item} </li> )
+			})}
 		</ul>
-		<button name="addItemFromInput" onClick={handleClick}>Add item</button>
+		<form onSubmit={handleSubmit}>
+			<input name="textToAdd" onChange={handleChange} />
+			<input type="submit"/>
+		</form>
 		</>
 	);
 	
