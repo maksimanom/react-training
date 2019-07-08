@@ -213,7 +213,77 @@ const Lesson610 = () => {
 		</>
 	);
 }
-
+const Lesson611 = () =>{
+	const [letters, setLetters] = React.useState(['a','b','c','d','e','f','g']);
+	const [number, setNumber] = React.useState();
+	const handleChange = ((event) => {
+		const n = parseInt(event.target.value);
+		setNumber(n-1);
+	});
+	const handleClick = (() => {
+		const tmpArray = letters.slice(0);
+		let arrayBefore = tmpArray.slice(0, number);
+		let arrayAfter = tmpArray.slice(number+1, tmpArray.length);
+		let arrayLast = arrayBefore.concat(arrayAfter);
+		setLetters(arrayLast);
+	});
+	return(
+		<>
+		<ul>
+			{letters.map((item, index)=> {
+			return <li key={index}>{item}</li>
+			})}
+		</ul>
+		<input name="numberToDelete" onChange={handleChange} placeholder="enter number here"/>
+		<button onClick={handleClick}>Delete number</button>
+		</>
+	)
+}
+const Lesson612 = () =>{
+	const [users, setUsers] = React.useState([
+		{name: 'Коля', age: 30},
+		{name: 'Вася', age: 40},
+		{name: 'Петя', age: 50},
+	]);
+	const [nameI, setName] = React.useState();
+	const [ageI, setAge] = React.useState();
+	const handleChange = ((event) => {
+		const name=event.target.name;
+		const value=event.target.value;
+		if (name==="inputName"){
+			setName(value);
+		}
+		if (name==="inputAge"){
+			setAge(value);
+		}
+	});
+	const handleClick = ((event) => {
+		const obj = {};
+		obj.name = nameI;
+		obj.age = ageI;
+		const tmpArray = [];
+		tmpArray.push(obj);
+		const arrayFinish = users.concat(tmpArray);
+		setUsers(arrayFinish);
+	});
+	return(
+		<>
+		<input name="inputName" onChange={handleChange} />
+		<input name="inputAge" onChange={handleChange} />
+		<button onClick={handleClick}>Add this person</button>
+		<table>
+			{users.map((item, index)=>{
+				return(
+					<tr>
+						<td>{item.name}</td>
+						<td>{item.age}</td>
+					</tr>
+				)
+			})}
+		</table>
+		</>
+	)
+}
   
 const Lesson6 = () => {
 	return(
@@ -240,7 +310,13 @@ const Lesson6 = () => {
 		<Lesson68/> 
 		<hr></hr>
 		{/* LEsson 6, task 10 : */}
-		<Lesson610/> 	
+		<Lesson610/> 
+		<hr></hr>
+		{/* LEsson 6, task 10 : */}
+		<Lesson611/>
+		<hr></hr>
+		{/* LEsson 6, task 10 : */}
+		<Lesson612/> 
 		</>
 	)
 }
