@@ -172,8 +172,8 @@ const Lesson610 = () => {
 		{href: '2.html', text: 'ссылка 2'},
 		{href: '3.html', text: 'ссылка 3'},]
 	);
-	const [inputHref, setInputHref] = React.useState("");
-	const [inputText, setInputText] = React.useState("");
+	const [inputHref, setInputHref] = React.useState();
+	const [inputText, setInputText] = React.useState();
 	const handleChange = ((event) => {
 		let target = event.target;
 		if (target.name==="hrefInput"){
@@ -186,11 +186,18 @@ const Lesson610 = () => {
 		}
 	});
 	const handleClick = (() => {
-		let tmpObj = [{href: {inputHref}, text: {inputText}}];
-		console.log(tmpObj);
-		let tmpArray = hrefs.concat(tmpObj);
-		setHrefs(tmpArray);
-		console.log(hrefs);
+		// let tmpObj = [{href: {inputHref}, text: {inputText}}];
+		// console.log(tmpObj);
+		// let tmpArray = hrefs.concat(tmpObj);
+		// setHrefs(tmpArray);
+		// console.log(hrefs);
+		const obj = {};
+		obj.href = inputHref;
+		obj.text = inputText;
+		const tmpArray = [];
+		tmpArray.push(obj);
+		let finishedArray = hrefs.concat(tmpArray);
+		setHrefs(finishedArray);
 	});
 	return(
 		<>
@@ -206,6 +213,7 @@ const Lesson610 = () => {
 		</>
 	);
 }
+
   
 const Lesson6 = () => {
 	return(
