@@ -102,6 +102,35 @@ const Lesson66 = () => {
 		</>
 	);
 }
+const Lesson67 = () => {
+	const numOfInputs = 3;
+	const elements = new Array(numOfInputs); // создает массив на количевство элементов numOfInputs
+  	const elements2 = elements.fill(null); //заполняет массив пустыми елементами
+  	const elements3 = elements2.map((value, index) => index); // заполняет массив index-ми
+	const [number, setNumber] = React.useState([]);
+	const [inputSum, setInputSum] = React.useState(0);
+	const handleClick = (event) => {
+		let summ = number.join(" ");
+		setInputSum(summ);
+	}
+	const handleChange = (event) => {
+		let value = event.target.value;
+		let indexOfElem = event.target.name;
+		let newArray = number.slice(0);
+		newArray[indexOfElem] = value;
+		setNumber(newArray);
+	}	
+	return(
+		<>
+			{elements3.map( (index) => {
+				return (<input key={index} name={index} onChange={handleChange} type="text"/>)
+			})}
+			<br></br>
+			<input type="submit" onClick={handleClick}/>
+			{inputSum}
+		</>
+	);
+}
   
 const Lesson6 = () => {
 	return(
@@ -120,6 +149,9 @@ const Lesson6 = () => {
 		<hr></hr>
 		{/* LEsson 6, task 6 : */}
 		<Lesson66/> 
+		<hr></hr>
+		{/* LEsson 6, task 6 : */}
+		<Lesson67/> 		
 		</>
 	)
 }
