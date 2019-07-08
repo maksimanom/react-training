@@ -50,7 +50,52 @@ const Lesson64 = () => {
 		</>
 	)
 }
-
+const Lesson65 = () => {
+	const [value, setValue] = React.useState("");
+	const [stolenText, setStolenText] = React.useState("");
+	const handleClick = (event) => {
+		setStolenText(value);
+		event.preventDefault();
+	}
+	const handleChange = (event) => {
+		return (setValue(event.target.value));
+	}	
+	return(
+		<>
+			<form>
+				<input name="text" onChange={handleChange}/>
+				<button type="submit" onClick={handleClick}>Submit</button>
+			</form>
+			{stolenText}
+		</>
+	);
+}
+const Lesson66 = () => {
+	const [number, setNumber] = React.useState([0,0]);
+	const [inputSum, setInputSum] = React.useState(0);
+	const handleClick = (event) => {
+		setInputSum(number[0] + number[1]);
+	}
+	const handleChange = (event) => {
+		if (event.target.name==="firstNum"){
+			setNumber(number[0]=parseFloat(event.target.value));
+		}
+		if (event.target.name==="secondNum"){
+			setNumber(number[1]=parseFloat(event.target.value));
+		}
+	}	
+	return(
+		<>
+			<form>
+				<input type="number" name="firstNum" onChange={handleChange} value='0' />
+				<input type="number" name="secondNum" onChange={handleChange} value='0'/>
+				<br></br>
+				<button type="submit" onClick={handleClick}>Check Sum</button>
+			</form>
+			{inputSum}
+		</>
+	);
+}
 
 const Lesson6 = () => {
 	return(
@@ -63,6 +108,12 @@ const Lesson6 = () => {
 		<hr></hr>
 		{/* LEsson 6, task 4 : */}
 		<Lesson64/> 
+		<hr></hr>
+		{/* LEsson 6, task 5 : */}
+		<Lesson65/> 
+		<hr></hr>
+		{/* LEsson 6, task 6 : */}
+		<Lesson66/> 
 		</>
 	)
 }
