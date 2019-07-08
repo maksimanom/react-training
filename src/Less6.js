@@ -138,10 +138,15 @@ const Lesson68 = () => {
 		if(event.target.name==="addName"){
 			let tmpArray = names.concat(fieldName);
 			setNames(tmpArray);
+			console.log(names);
 		}
 		if(event.target.name==="deleteItem"){
+			let n = event.target.value;
 			let tmpArray = names.slice(0);
-			setNames(tmpArray.splice(event.target.value));
+			let arrayBefore = tmpArray.slice(0,n);
+			let arrayAfter = tmpArray.slice(n+1, tmpArray.length);
+			setNames(arrayBefore.concat(arrayAfter));
+			console.log(names);
 		}
 	};
 	const handleChange = (event) => {
