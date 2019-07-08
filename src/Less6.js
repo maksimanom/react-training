@@ -1,4 +1,5 @@
 import React from 'react';
+import Lesson5 from './less5';
 // THAT WAS TRAINING UNDER (COMMITED), THIS IS TASKS:
 const Lesson62 = () => {
 	const [value, setValue] = React.useState("");
@@ -71,32 +72,37 @@ const Lesson65 = () => {
 	);
 }
 const Lesson66 = () => {
-	const [number, setNumber] = React.useState([0,0]);
+	const numOfInputs = 2;
+	const elements = new Array(numOfInputs); // создает массив на количевство элементов numOfInputs
+  	const elements2 = elements.fill(null); //заполняет массив пустыми елементами
+  	const elements3 = elements2.map((value, index) => index); // заполняет массив index-ми
+	const [number, setNumber] = React.useState([]);
 	const [inputSum, setInputSum] = React.useState(0);
 	const handleClick = (event) => {
-		setInputSum(number[0] + number[1]);
+		let summ = number.reduce((accumulator, currentValue) => {
+			return parseFloat(accumulator) + parseFloat(currentValue);
+		});
+		setInputSum(summ);
 	}
 	const handleChange = (event) => {
-		if (event.target.name==="firstNum"){
-			setNumber(number[0]=parseFloat(event.target.value));
-		}
-		if (event.target.name==="secondNum"){
-			setNumber(number[1]=parseFloat(event.target.value));
-		}
+		let value = event.target.value;
+		let indexOfElem = event.target.name;
+		let newArray = number.slice(0);
+		newArray[indexOfElem] = value;
+		setNumber(newArray);
 	}	
 	return(
 		<>
-			<form>
-				<input type="number" name="firstNum" onChange={handleChange} value='0' />
-				<input type="number" name="secondNum" onChange={handleChange} value='0'/>
-				<br></br>
-				<button type="submit" onClick={handleClick}>Check Sum</button>
-			</form>
+			{elements3.map( (index) => {
+				return (<input key={index} name={index} onChange={handleChange} type="text"/>)
+			})}
+			<br></br>
+			<input type="submit" onClick={handleClick}/>
 			{inputSum}
 		</>
 	);
 }
-
+  
 const Lesson6 = () => {
 	return(
 		<>
