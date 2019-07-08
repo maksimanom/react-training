@@ -132,7 +132,7 @@ const Lesson67 = () => {
 	);
 }
 const Lesson68 = () => {
-	const [names, setNames] = React.useState(["Vasya","Petya","Lolik"]);
+	const [names, setNames] = React.useState(["Vasya","Petya","Lolik", "Kesha", "Maksym"]);
 	const [fieldName, setFieldName] = React.useState("");
 	const handleClick = (event) => {
 		if(event.target.name==="addName"){
@@ -141,12 +141,14 @@ const Lesson68 = () => {
 			console.log(names);
 		}
 		if(event.target.name==="deleteItem"){
-			let n = event.target.value;
-			let tmpArray = names.slice(0);
-			let arrayBefore = tmpArray.slice(0,n);
-			let arrayAfter = tmpArray.slice(n+1, tmpArray.length);
+			let n = parseInt(event.target.value);
+			console.log(names.length);
+			//let tmpArray = names.slice(0);
+			let arrayBefore = names.slice(0,n);
+			console.log("arrayBefore: " + arrayBefore);
+			let arrayAfter = names.slice((n+1), names.length);
+			console.log("arrayAfter: " + arrayAfter);
 			setNames(arrayBefore.concat(arrayAfter));
-			console.log(names);
 		}
 	};
 	const handleChange = (event) => {
@@ -161,6 +163,46 @@ const Lesson68 = () => {
 		</ul>
 		<input name="inputField" onChange={handleChange}/>
 		<button name="addName" onClick={handleClick}>Add Name</button>
+		</>
+	);
+}
+const Lesson610 = () => {
+	const [hrefs, setHrefs] = React.useState([
+		{href: '1.html', text: 'ссылка 1'},
+		{href: '2.html', text: 'ссылка 2'},
+		{href: '3.html', text: 'ссылка 3'},]
+	);
+	const [inputHref, setInputHref] = React.useState("");
+	const [inputText, setInputText] = React.useState("");
+	const handleChange = ((event) => {
+		let target = event.target;
+		if (target.name==="hrefInput"){
+			let href=target.value;
+			setInputHref(href);
+		}
+		if (target.name==="textInput"){
+			let text=target.value;
+			setInputText(text);
+		}
+	});
+	const handleClick = (() => {
+		let tmpObj = [{href: {inputHref}, text: {inputText}}];
+		console.log(tmpObj);
+		let tmpArray = hrefs.concat(tmpObj);
+		setHrefs(tmpArray);
+		console.log(hrefs);
+	});
+	return(
+		<>
+		<ul>
+			{ hrefs.map((item, index)=> {
+			return <li key={index}><a href={item.href}>{item.text}</a></li>
+		})}
+		</ul>
+		<input name="hrefInput" onChange={handleChange} placeholder="Enter href here"/>
+		<input name="textInput" onChange={handleChange} placeholder="Enter link text here"/>
+		<br></br>
+		<button onClick={handleClick}>Add link</button>
 		</>
 	);
 }
@@ -186,8 +228,11 @@ const Lesson6 = () => {
 		{/* LEsson 6, task 7 : */}
 		<Lesson67/> 	
 		<hr></hr>
-		{/* LEsson 6, task 8 : */}
-		<Lesson68/> 	
+		{/* LEsson 6, task 8,9 : */}
+		<Lesson68/> 
+		<hr></hr>
+		{/* LEsson 6, task 10 : */}
+		<Lesson610/> 	
 		</>
 	)
 }
