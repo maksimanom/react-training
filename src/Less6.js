@@ -131,6 +131,34 @@ const Lesson67 = () => {
 		</>
 	);
 }
+const Lesson68 = () => {
+	const [names, setNames] = React.useState(["Vasya","Petya","Lolik"]);
+	const [fieldName, setFieldName] = React.useState("");
+	const handleClick = (event) => {
+		if(event.target.name==="addName"){
+			let tmpArray = names.concat(fieldName);
+			setNames(tmpArray);
+		}
+		if(event.target.name==="deleteItem"){
+			let tmpArray = names.slice(0);
+			setNames(tmpArray.splice(event.target.value));
+		}
+	};
+	const handleChange = (event) => {
+		setFieldName(event.target.value);
+	};
+	return(
+		<>
+		<ul>
+			{names.map((item, index)=> {
+				return (<li key={index}>{item} <button value={index} name="deleteItem" onClick={handleClick}>Delete me</button></li>)
+			})}
+		</ul>
+		<input name="inputField" onChange={handleChange}/>
+		<button name="addName" onClick={handleClick}>Add Name</button>
+		</>
+	);
+}
   
 const Lesson6 = () => {
 	return(
@@ -150,8 +178,11 @@ const Lesson6 = () => {
 		{/* LEsson 6, task 6 : */}
 		<Lesson66/> 
 		<hr></hr>
-		{/* LEsson 6, task 6 : */}
-		<Lesson67/> 		
+		{/* LEsson 6, task 7 : */}
+		<Lesson67/> 	
+		<hr></hr>
+		{/* LEsson 6, task 8 : */}
+		<Lesson68/> 	
 		</>
 	)
 }
