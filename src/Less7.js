@@ -39,10 +39,20 @@ const Task3 = (()=>{
   )
 })
 const Task4 = (()=>{
+  const [valueSelect, setValueSelect] = React.useState("Che");
+  const handleSelectChange = ((event)=>{
+    return(setValueSelect(event.target.value))
+  });
 
   return(
     <>
-
+    <select onChange={handleSelectChange} value={valueSelect}>
+      <option value="Che">Che</option>
+      <option value="Kyiv">Kyiv</option>
+      <option value="Lviv">Lviv</option>
+      <option value="Odessa">Odessa</option>
+    </select>
+    <p>{valueSelect}</p>
     </>
   )
 })
