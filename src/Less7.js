@@ -136,8 +136,23 @@ const Task8 = (()=>{
     </>
   )
 })
-
-
+const Task9 = (()=>{
+  const [checked, setChecked] = React.useState("Marked");
+  const handleSelectChange = ((event)=>{
+    const value=event.target.value;
+    if (value==="Marked") return setChecked("Marked");
+    else return setChecked("NotMarked");
+  })
+  return(
+    <>
+    <select name="checkedOrNot" value={checked} onChange={handleSelectChange}>
+      <option value="Marked">Отмечено</option>
+      <option value="NotMarked">Не отмечено</option>
+    </select>
+    <input type="checkbox" checked={checked==="Marked"}></input>
+    </>
+  )
+})
 const Lesson7 = (()=>{
     return (
         <>
@@ -156,6 +171,8 @@ const Lesson7 = (()=>{
         <Task7/>
         <hr></hr>
         <Task8/>
+        <hr></hr>
+        <Task9/>
         </>
     )
 });
