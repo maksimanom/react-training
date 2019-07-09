@@ -91,6 +91,29 @@ const Task6 = (()=>{
     </>
   )
 })
+const Task7 = (()=>{
+  const [texts, setTexts] = React.useState(["1", "2"]);
+  const [enteredText, setEnteredText] = React.useState();
+  const handleTextareaChange = ((event)=>{
+    setEnteredText(event.target.value);
+  })
+  const handleClick = ((event)=>{
+    const text = enteredText;
+    const arrayOfTexts = texts.slice(0);
+    arrayOfTexts.push(text);
+    setTexts(arrayOfTexts);
+  })
+  return(
+    <>
+    <textarea name="text" onChange={handleTextareaChange}></textarea>
+    <button onClick={handleClick}>Add text</button>
+    {texts.map((item, index)=>{
+      return <p key={index}>{item}</p>
+    })}
+    </>
+  )
+})
+
 
 const Lesson7 = (()=>{
     return (
@@ -106,6 +129,8 @@ const Lesson7 = (()=>{
         <Task5/>
         <hr></hr>
         <Task6/>
+        <hr></hr>
+        <Task7/>
         </>
     )
 });
