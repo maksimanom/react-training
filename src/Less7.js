@@ -12,12 +12,26 @@ const Task1 = (()=>{
         </>
     )
 })
-
+const Task2 = (()=>{
+    const [checked, setChecked] = React.useState(false);
+    const handleCheckboxChange = (()=>{
+        setChecked(!checked);
+    })
+    return(
+        <>
+        <input type="checkbox" name="input1" onChange={handleCheckboxChange}/>
+        <p>{checked ? "checked" : "not cheked"}</p>
+        </>
+    )
+})
 
 const Lesson7 = (()=>{
     return (
+        <>
         <Task1/>
-
+        <hr></hr>
+        <Task2/>
+        </>
     )
 });
 
