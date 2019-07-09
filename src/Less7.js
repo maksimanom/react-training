@@ -77,6 +77,21 @@ const Task5 = (()=>{
     </>
   )
 })
+const Task6 = (()=>{
+  const [selectedValue, setSelectedValue] = React.useState();
+  const handleRadioChange = ((event)=>{
+    setSelectedValue(event.target.value)
+  })
+  return(
+    <>
+    <input name="lorem" type="radio" value="1" onChange={handleRadioChange}/>
+    <input name="lorem" type="radio" value="2" onChange={handleRadioChange}/>
+    <input name="lorem" type="radio" value="3" onChange={handleRadioChange}/>
+    <p>{selectedValue}</p>
+    </>
+  )
+})
+
 const Lesson7 = (()=>{
     return (
         <>
@@ -89,6 +104,8 @@ const Lesson7 = (()=>{
         <Task4/>
         <hr></hr>
         <Task5/>
+        <hr></hr>
+        <Task6/>
         </>
     )
 });
