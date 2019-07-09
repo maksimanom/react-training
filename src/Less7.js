@@ -24,6 +24,28 @@ const Task2 = (()=>{
         </>
     )
 })
+const Task3 = (()=>{
+  const [checked, setChecked] = React.useState(false);
+  const handleCheckboxChange = (()=>{
+      setChecked(!checked);
+
+  });
+
+  return(
+      <>
+      <input type="checkbox" name="input1" onChange={handleCheckboxChange}/>
+      <p id="par" style={{display: checked ? "block" : "none"}}>Text is showed</p>
+      </>
+  )
+})
+const Task4 = (()=>{
+
+  return(
+    <>
+
+    </>
+  )
+})
 
 const Lesson7 = (()=>{
     return (
@@ -31,6 +53,10 @@ const Lesson7 = (()=>{
         <Task1/>
         <hr></hr>
         <Task2/>
+        <hr></hr>
+        <Task3/>
+        <hr></hr>
+        <Task4/>
         </>
     )
 });
