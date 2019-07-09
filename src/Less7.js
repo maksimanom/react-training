@@ -113,6 +113,29 @@ const Task7 = (()=>{
     </>
   )
 })
+const Task8 = (()=>{
+  const [colors, setColors] = React.useState(['red','blue','green','grey']);
+  const [valueSelect, setValueSelect] = React.useState("red");
+  const handleSelectChange = ((event)=>{
+    setValueSelect(event.target.value)
+  })
+  const select = (()=>{
+    const options = colors.map((item, index)=>{
+      return <option key={index} value={item}>{item}</option>
+    })
+    return(
+      <select value={valueSelect} onChange={handleSelectChange}>
+        {options}
+      </select>
+    )
+  })
+  return(
+    <>
+      {select(colors)}
+      <p style={{color: valueSelect}}>Some text</p>
+    </>
+  )
+})
 
 
 const Lesson7 = (()=>{
@@ -131,6 +154,8 @@ const Lesson7 = (()=>{
         <Task6/>
         <hr></hr>
         <Task7/>
+        <hr></hr>
+        <Task8/>
         </>
     )
 });
