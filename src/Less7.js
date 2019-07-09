@@ -56,7 +56,27 @@ const Task4 = (()=>{
     </>
   )
 })
-
+const Task5 = (()=>{
+  const [citys, setCitys] = React.useState(['Che','Kyiv','Lviv','Odessa']);
+  const [valueSelect, setValueSelect] = React.useState("Che");
+  const handleSelectChange = ((event)=>{
+    setValueSelect(event.target.value)
+  })
+  const select = ((citys)=>{
+    const option = (citys.map((item, index)=>{
+      return <option key={index} name={item}>{item}</option>
+    }))
+    return <select onChange={handleSelectChange} value={valueSelect}>
+      {option}
+    </select>
+  })
+  return(
+    <>
+    {select(citys)}
+    <p>{valueSelect}</p>
+    </>
+  )
+})
 const Lesson7 = (()=>{
     return (
         <>
@@ -67,6 +87,8 @@ const Lesson7 = (()=>{
         <Task3/>
         <hr></hr>
         <Task4/>
+        <hr></hr>
+        <Task5/>
         </>
     )
 });
