@@ -153,6 +153,24 @@ const Task9 = (()=>{
     </>
   )
 })
+const Task10 = (()=>{
+  const [countrySelected, setCountrySelected] = React.useState("Ukraine");
+  const handleSelectChange = ((event)=>{
+    setCountrySelected(event.target.value);
+  })
+  return(
+    <>
+    <select value={countrySelected} onChange={handleSelectChange}>
+      <option value="Ukraine">Ukraine</option>
+      <option value="GreatBritain">Great Britain</option>
+      <option value="USA">USA</option>
+    </select>
+    <p style={{display: countrySelected==="Ukraine"? "block" : "none"}}>Kyiv</p>
+    <p style={{display: countrySelected==="GreatBritain"? "block" : "none"}}>London</p>
+    <p style={{display: countrySelected==="USA"? "block" : "none"}}>Washington</p>
+    </>
+  )
+})
 const Lesson7 = (()=>{
     return (
         <>
@@ -173,6 +191,8 @@ const Lesson7 = (()=>{
         <Task8/>
         <hr></hr>
         <Task9/>
+        <hr></hr>
+        <Task10/>
         </>
     )
 });
