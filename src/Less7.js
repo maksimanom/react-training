@@ -171,6 +171,33 @@ const Task10 = (()=>{
     </>
   )
 })
+const Task11 = (()=>{
+  const [options, setOptions] = React.useState(['kek', 'lol', 'validol']);
+  const [inputValue, setInputValue] = React.useState();
+  const optionsList = ((options)=>{
+    const opt =  options.map((item, index)=>{
+      return <option key={index} value={item}>{item}</option>
+    })
+    return opt 
+  })
+  const handleClick = (()=>{
+    let tmpArray = options.slice(0);
+    let lastArray = tmpArray.concat(inputValue);
+    setOptions(lastArray);
+  })
+  const handleInputChange = ((event)=>{
+    setInputValue(event.target.value);
+  })
+  return(
+    <>
+    <input name="textOfInput" onChange={handleInputChange}></input>
+    <button onClick={handleClick}>Add to end of List</button>
+    <select>
+      {optionsList(options)}
+    </select>
+    </>
+  )
+})
 const Lesson7 = (()=>{
     return (
         <>
@@ -193,6 +220,8 @@ const Lesson7 = (()=>{
         <Task9/>
         <hr></hr>
         <Task10/>
+        <hr></hr>
+        <Task11/>
         </>
     )
 });
