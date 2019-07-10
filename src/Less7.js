@@ -198,6 +198,19 @@ const Task11 = (()=>{
     </>
   )
 })
+const Task12 = (()=>{
+  const [isChecked, setIsChecked] = React.useState(false);
+  const handleCheckboxChange = ((event)=>{
+    setIsChecked(!isChecked);
+  })  
+
+  return(
+    <>
+    <input type="checkbox" onChange={handleCheckboxChange} checked={isChecked}/>
+    <input disabled={!isChecked}></input>
+    </>
+  )
+})
 const Lesson7 = (()=>{
     return (
         <>
@@ -221,7 +234,9 @@ const Lesson7 = (()=>{
         <hr></hr>
         <Task10/>
         <hr></hr>
-        <Task11/>
+        <Task11/>        
+        <hr></hr>
+        <Task12/>
         </>
     )
 });
