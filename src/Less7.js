@@ -211,6 +211,53 @@ const Task12 = (()=>{
     </>
   )
 })
+const Task13 = (()=>{
+  const [daysArray, setDaysArray] = React.useState([1,2,3,4,5,6,7,8,9,10]);
+  const [monthsArray, setMonthsArray] = React.useState([1,2,3,4,5,6,7,8,9,10,11,12]);
+  const [yearsArray, setYearsArray] = React.useState([2017,2018,2019]);
+  const [selectedDay, setSelectedDay] = React.useState(1);
+  const [selectedMonth, setSelectedMonth] = React.useState(1);
+  const [selectedYear, setSelectedYear] = React.useState(2019);
+  const [detectedDate, setDectedDate] = React.useState(new Date().toDateString());
+  const handleSelectedDay = ((event)=>{
+    const value = event.target.value;
+    setSelectedDay(value);
+  })
+  const handleSelectedMonth = ((event) => {
+    const value = event.target.value;
+    setSelectedMonth(value);
+  })
+  const handleSelectedYear = ((event) => {
+    const value = event.target.value;
+    setSelectedYear(value);
+  })
+  const handleCLick = (()=>{
+    let date = new Date(selectedYear, selectedMonth-1, selectedDay);
+    setDectedDate(date.getDay());
+  })
+
+  return(
+    <>
+    <select name="day" value={selectedDay} onChange={handleSelectedDay}>
+        {daysArray.map((item, index) => {
+          return <option key={index} value={item}>{item}</option>
+        })}
+    </select>
+      <select name="month" value={selectedMonth} onChange={handleSelectedMonth}>
+        {monthsArray.map((item, index) => {
+          return <option key={index} value={item}>{item}</option>
+        })}
+    </select>
+    <select name="year" value={selectedYear} onChange={handleSelectedYear}>
+        {yearsArray.map((item, index) => {
+          return <option key={index} value={item}>{item}</option>
+        })}
+    </select>
+    <input type="submit" onClick={handleCLick}/>
+    <p>{detectedDate=="2" ? "thuesday" : "no"}</p>
+    </>
+  )
+})
 const Lesson7 = (()=>{
     return (
         <>
@@ -236,7 +283,9 @@ const Lesson7 = (()=>{
         <hr></hr>
         <Task11/>        
         <hr></hr>
-        <Task12/>
+        <Task12/>     
+        <hr></hr>
+        <Task13/>
         </>
     )
 });
