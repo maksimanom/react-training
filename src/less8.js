@@ -20,7 +20,8 @@ const Task2 = (() => {
   const [employee, setEmployee] = React.useState([
     {name: "Max", surname: "Kozoriz", rate: 1000, checked: false },
     {name: "KekName", surname: "KekSurname", rate: 2000, checked: false },
-    {name: "LolName", surname: "LolSurname", rate: 3000, checked: false }
+    {name: "LolName", surname: "LolSurname", rate: 3000, checked: false },
+    {name: "Ivan", surname: "Ivanov", rate: 3500, checked: false }
   ]);
   const [sum, setSum] = React.useState(0);
 
@@ -29,6 +30,8 @@ const Task2 = (() => {
       if (item.checked===true){
         console.log("element taked: " + item.rate);
         return item.rate;
+      }else{
+        return 0
       }
     });
     console.log(rateArray);
