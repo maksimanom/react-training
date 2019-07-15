@@ -28,13 +28,11 @@ const Task2 = (() => {
   const sumCalc = ()=>{
     const rateArray = employee.map((item, index)=>{
       if (item.checked===true){
-        console.log("element taked: " + item.rate);
         return item.rate;
       }else{
         return 0
       }
     });
-    console.log(rateArray);
     const sumOfCheckedElements = rateArray.reduce((a, b) => a + b, 0);
     setSum(sumOfCheckedElements)
   }
@@ -86,12 +84,83 @@ const Task2 = (() => {
   )
 })
 
-const Lesson8 = (()=>{
+//************************************ */
+const Task3 = ({array, handleDelete, editedItem})=>{
+ 
+
+  const [isVisibleState, setIsVisibleState] = React.useState([
+    {id: 0, isVisible1: false},
+    {id: 1, isVisible1: false},
+    {id: 2, isVisible1: false},
+    {id: 3, isVisible1: false},
+    {id: 4, isVisible1: false}
+  ]);
+   const [inputValue, setInputValue] = React.useState("");
+  const handleInputChange = (event, item) => {
+    console.log(item);
+  }
+  console.log(isVisibleState);
+  const handleCLick = (event, item, index)=>{
+    console.log(index);
+    if (isVisibleState[index].isVisible1) {
+      editedItem(index, inputValue);
+      isVisibleState[index].isVisible1 = !isVisibleState[index].isVisible1;
+      setIsVisibleState(isVisibleState.concat([]));
+      return
+    }
+    //setInputValue(item);
+    isVisibleState[index].isVisible1 =  !isVisibleState[index].isVisible1;
+    setIsVisibleState(isVisibleState.concat([]));
+  }
+  const handleChange = (event)=>{
+    setInputValue(event.target.value)
+  }
+  return(
+    <table>
+      <tbody>
+        {array.map((item, index)=>(
+          <tr key={index}>
+            <td>
+              {item}
+            </td>
+            <td>
+              {isVisibleState[index].id === index && isVisibleState[index].isVisible1===true ? 
+              <input type="text" id={index} value={inputValue} onChange={(event) => handleChange(event)} />
+              :""
+              }
+            </td>
+            <td>
+              <button type="submit" onClick={(event)=>handleCLick(event, item, index)}>Change text</button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+//****************************************************** */
+const texts = ['first', 'second', 'third', 'fourth', 'fifth'];
+//*********************************************************** */
+
+const Lesson8 = (() => {
+  const [textState, setTextState] = React.useState(texts);
+
+  const setFinishedArray = (item)=>{
+    setTextState(item);
+  }
+  const setEditedItem = (index, item)=>{
+    console.log("index in setEditedItem = "+index + "  \\\ item " + item)
+    textState[index] = item;
+    setTextState(textState.concat([]))
+  }
+
   return(
     <>
       <Task1 />
       <hr></hr>
       <Task2 />
+      <hr></hr>
+      <Task3 array={textState} handleDelete={(item)=>setFinishedArray(item)} editedItem={(index, item)=>setEditedItem(index, item)}/>
       <hr></hr>
     </>
   )
