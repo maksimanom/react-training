@@ -3,16 +3,16 @@ import React from 'react';
 const TableWithTexts = ({arrayOfTexts, editItem})=>{
   
   const Trs = ({ index, value, editItem }) => {
-    const [inputValue, setInputValue] = React.useState("");
+    const [inputValue, setInputValue] = React.useState(value);
     const [isVisible, setIsVisible] = React.useState(false);
 
     const handleInputChange = (event) => (
       setInputValue(event.target.value)
     )
-    const handleCLick = (index, value, editItem) => {
+    const handleCLick = (event, index, value) => {
       setIsVisible(!isVisible);
-      if(isVisible){
-        editItem(index, value);
+      if(isVisible){       
+        editItem(index, inputValue);
       }
     }
 
@@ -20,7 +20,7 @@ const TableWithTexts = ({arrayOfTexts, editItem})=>{
       <tr key={index}>
         <td>{value}</td>
         <td>{isVisible ? <input type="text" value={inputValue} onChange={handleInputChange} /> : ""}</td>
-        <td><button onClick={(event) => handleCLick(event, index, value, editItem)}>Change</button></td>
+        <td><button onClick={(event) => handleCLick(event, index, value)}>Change</button></td>
       </tr>
     )
   }
@@ -46,7 +46,6 @@ const App=()=>{
   const [textState, setTextState] = React.useState(texts);
   const setEdited = (index, item)=>{
     textState[index] = item;
-    console.log(textState[index]);
     setTextState(textState.concat([]));
   }
   return(

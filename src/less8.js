@@ -85,6 +85,7 @@ const Task2 = (() => {
 })
 
 //************************************ */
+const texts = ['first', 'second', 'third', 'fourth', 'fifth'];
 const Task3 = ({array, handleDelete, editedItem})=>{
  
 
@@ -138,30 +139,37 @@ const Task3 = ({array, handleDelete, editedItem})=>{
     </table>
   )
 }
-//****************************************************** */
-const texts = ['first', 'second', 'third', 'fourth', 'fifth'];
 //*********************************************************** */
-
-const Lesson8 = (() => {
-  const [textState, setTextState] = React.useState(texts);
-
-  const setFinishedArray = (item)=>{
-    setTextState(item);
-  }
-  const setEditedItem = (index, item)=>{
-    console.log("index in setEditedItem = "+index + "  \\\ item " + item)
-    textState[index] = item;
-    setTextState(textState.concat([]))
-  }
-
+const routes = ['Kyiv-London', 'Kyiv-Vashington', 'Kyiv-Moscow', 'Kyiv-Madagaskar', 'Kyiv-Keln'];
+const Task7 = ({routes, showRouteInApp})=>{
+  const [selectedRadio, setSelectedRadio] = React.useState();
+  const handleCLick= (event)=>(
+    setSelectedRadio(event.target.value),
+    showRouteInApp(event.target.value)
+  )
   return(
     <>
-      <Task1 />
-      <hr></hr>
-      <Task2 />
-      <hr></hr>
-      <Task3 array={textState} handleDelete={(item)=>setFinishedArray(item)} editedItem={(index, item)=>setEditedItem(index, item)}/>
-      <hr></hr>
+    {routes.map((item, index)=>{
+      return <div key={index}> {item} <input type="radio" value={item} name="route" onClick={handleCLick}/> </div>
+    })}
+    <p>In function: {selectedRadio}</p>
+    </>
+  )
+}
+
+
+
+// **********************************************************
+const Lesson8 = (() => {
+  const [route, setRoute] = React.useState(routes);
+  const [selectedRoute, setSelectedRoute] = React.useState('Kyiv-London111');
+  const takeSelectedRoute = (item)=>{
+    setSelectedRoute(item);
+  }
+  return(
+    <>
+      <Task7 routes={route} showRouteInApp={(item)=>takeSelectedRoute(item)}/>
+      <p>In app : {selectedRoute}</p>
     </>
   )
 })

@@ -4,6 +4,6 @@ import Lesson8 from './less8';
 import App from './TaskWithInputs';
 
 ReactDOM.render(
-  <App />,
+  <Lesson8 />,
   document.getElementById('root')
 );
