@@ -156,20 +156,59 @@ const Task7 = ({routes, showRouteInApp})=>{
     </>
   )
 }
-
-
-
-// **********************************************************
-const Lesson8 = (() => {
-  const [route, setRoute] = React.useState(routes);
-  const [selectedRoute, setSelectedRoute] = React.useState('Kyiv-London111');
-  const takeSelectedRoute = (item)=>{
-    setSelectedRoute(item);
+// ****************************
+const notes = [];
+const Task8 = ({notes, addNote})=>{
+  const [numberOfNote, setNumberOfNote] = React.useState(0);
+  const [textAreaState, setTextAreaState] = React.useState("");
+  const handleTextAreaChange = (event)=>(
+    setTextAreaState(event.target.value)
+  )
+  const handleClick = ()=>{
+    setNumberOfNote(numberOfNote+1);
+    console.log("numberOfNote: "+numberOfNote);
+    addNote(numberOfNote, textAreaState);
+  }
+  const nowTime = ()=>{
+    let date = new Date();
+    const ss = String(date.getSeconds()).padStart(2, '0');
+    const mm = String(date.getMinutes()).padStart(2, '0');
+    const hh = date.getHours();
+    return hh + ':' + mm + ':' + ss;
   }
   return(
     <>
-      <Task7 routes={route} showRouteInApp={(item)=>takeSelectedRoute(item)}/>
-      <p>In app : {selectedRoute}</p>
+    <textarea onChange={handleTextAreaChange}/>
+    <button onClick={handleClick}>Push</button>
+    <br />
+    {notes.map((item, index)=>{
+      return (<p key={index}>{item.text}</p>)
+    })}
+    </>
+  )
+}
+const Task8App = ()=>{
+  const [notesArray, setNotesArray] = React.useState(notes);
+  const addNote = (id, text)=>{ 
+    let obj = {id: id, text: text};
+    notesArray.push(obj);
+    setNotesArray(notesArray.concat([]));
+    console.log(notesArray)
+  }
+  return(
+    <>
+      <Task8 notes={notes} addNote={(id, text)=>addNote(id, text)}/>
+    </>
+  )
+}
+//********************************* */
+
+// **********************************************************
+const Lesson8 = (() => {
+  
+  return(
+    <>
+     <Task8App />
     </>
   )
 })
