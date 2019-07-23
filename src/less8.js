@@ -157,17 +157,15 @@ const Task7 = ({routes, showRouteInApp})=>{
   )
 }
 // ****************************
+// ****************************
 const notes = [];
-const Task8 = ({notes, addNote})=>{
+
+const Task8 = ({notes, addNote, changeNote})=>{
   const [numberOfNote, setNumberOfNote] = React.useState(0);
-  const [textAreaState, setTextAreaState] = React.useState("");
-  const handleTextAreaChange = (event)=>(
-    setTextAreaState(event.target.value)
-  )
+  const ref = React.useRef();
   const handleClick = ()=>{
     setNumberOfNote(numberOfNote+1);
-    console.log("numberOfNote: "+numberOfNote);
-    addNote(numberOfNote, textAreaState);
+    addNote(numberOfNote, ref.current.value, nowTime());
   }
   const nowTime = ()=>{
     let date = new Date();
@@ -176,28 +174,63 @@ const Task8 = ({notes, addNote})=>{
     const hh = date.getHours();
     return hh + ':' + mm + ':' + ss;
   }
+  const NotesView = ({item, index})=>{
+    const [isVisible, setIsVisible] = React.useState(false);
+    const refChange = React.useRef();
+    const handleClick = (event, item)=>{
+      setIsVisible(!isVisible)
+      if (isVisible){
+        changeNote(item.id, refChange.current.value, nowTime());
+      }
+    }
+    return(
+      <>
+        <div key={index}>
+          <h2>Заметка {item.id + 1}
+            <button>Delete</button> |
+            <button onClick={(event, item)=>handleClick(event, item)}>Change</button>
+            {isVisible ? <input type="text" ref={refChange}/> : "" }
+          </h2>
+          <h3>{item.text}</h3>
+          <h6>{item.time}</h6>
+          <hr />
+        </div>       
+      </>
+    )
+  }
   return(
     <>
-    <textarea onChange={handleTextAreaChange}/>
+    <textarea ref={ref}/>
+    <input type="hidden" value="User1"/>
     <button onClick={handleClick}>Push</button>
     <br />
     {notes.map((item, index)=>{
-      return (<p key={index}>{item.text}</p>)
+      return (
+        <NotesView item={item} index={index} key={index}/>
+      )
     })}
     </>
   )
 }
+// APP APP APP APP APP APP APP APP APP APP APP APP APP APP APP APP APP APP
 const Task8App = ()=>{
   const [notesArray, setNotesArray] = React.useState(notes);
-  const addNote = (id, text)=>{ 
-    let obj = {id: id, text: text};
+  const addNote = (id, text, nowTime)=>{
+    let obj = {id: id, text: text, time: nowTime};
     notesArray.push(obj);
     setNotesArray(notesArray.concat([]));
-    console.log(notesArray)
+  }
+  const changeNote = (id, text, nowTime)=>{
+    notesArray[id]={id: id, text: text, time: nowTime};
+    setNotesArray(notesArray.concat([]));
   }
   return(
     <>
-      <Task8 notes={notes} addNote={(id, text)=>addNote(id, text)}/>
+      <Task8
+        notes={notesArray}
+        addNote={(id, text, nowTime) => addNote(id, text, nowTime)}
+        changeNote={(id, text, nowTime) => changeNote(id, text, nowTime)}/>
+      {console.log(notesArray)}
     </>
   )
 }
