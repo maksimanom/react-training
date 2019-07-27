@@ -158,10 +158,20 @@ const Task7 = ({routes, showRouteInApp})=>{
 }
 // ****************************
 // ****************************
-const notes = [];
-
-const Task8 = ({notes, addNote, changeNote})=>{
-  const [numberOfNote, setNumberOfNote] = React.useState(0);
+const notes = [
+  { id: 1, text: "111111", time: "10:10:10" },
+  { id: 2, text: "222222", time: "20:20:20" },
+  { id: 3, text: "333333", time: "30:30:30" }
+];
+const Task8 = ({notes, addNote, changeNote, deleteNote})=>{
+  const lastNote = notes[notes.length-1];
+  let lastId = 1;
+  if (lastNote===undefined){
+    lastId = 1;
+  }else{
+    lastId = lastNote.id;
+  }
+  const [numberOfNote, setNumberOfNote] = React.useState(lastId+1);
   const ref = React.useRef();
   const handleClick = ()=>{
     setNumberOfNote(numberOfNote+1);
@@ -177,18 +187,26 @@ const Task8 = ({notes, addNote, changeNote})=>{
   const NotesView = ({item, index})=>{
     const [isVisible, setIsVisible] = React.useState(false);
     const refChange = React.useRef();
-    const handleClick = (event, item)=>{
-      setIsVisible(!isVisible)
-      if (isVisible){
+    const handleClick = (event)=>{
+      const target = event.target;
+      if (target.name==="changeButton"){
+        setIsVisible(!isVisible)
+      }
+      if (isVisible && target.name==="changeButton"){
         changeNote(item.id, refChange.current.value, nowTime());
+        return 0
+      }
+      if (target.name==="deleteButton"){
+        deleteNote(index);
+        return 0
       }
     }
     return(
       <>
         <div key={index}>
-          <h2>Заметка {item.id + 1}
-            <button>Delete</button> |
-            <button onClick={(event, item)=>handleClick(event, item)}>Change</button>
+          <h2>Заметка {item.id}
+            <button name="deleteButton" onClick={handleClick}>Delete</button> |
+            <button name="changeButton" onClick={handleClick}>Change</button>
             {isVisible ? <input type="text" ref={refChange}/> : "" }
           </h2>
           <h3>{item.text}</h3>
@@ -221,15 +239,33 @@ const Task8App = ()=>{
     setNotesArray(notesArray.concat([]));
   }
   const changeNote = (id, text, nowTime)=>{
-    notesArray[id]={id: id, text: text, time: nowTime};
+    let numInNotesArray = -1;
+    notesArray.map((item, index)=>{
+      if (item.id===id){
+        numInNotesArray = item.id;
+        notesArray[index] = {id: id, text: text, time: nowTime};
+        console.log(numInNotesArray);
+      }
+    })
+    console.log('numInNotesArray');
+    console.log(numInNotesArray);
+    //notesArray[numInNotesArray-1]={id: id, text: text, time: nowTime};
     setNotesArray(notesArray.concat([]));
   }
+  const deleteNote = (id)=>{
+    const firstPart = notesArray.slice(0, id);
+    const secondPart = notesArray.slice(id+1, notesArray.length);
+    const finishedArray = firstPart.concat(secondPart);
+    setNotesArray(finishedArray);
+  }
+
   return(
     <>
       <Task8
         notes={notesArray}
         addNote={(id, text, nowTime) => addNote(id, text, nowTime)}
-        changeNote={(id, text, nowTime) => changeNote(id, text, nowTime)}/>
+        changeNote={(id, text, nowTime) => changeNote(id, text, nowTime)}
+        deleteNote={(id) => deleteNote(id)}/>
       {console.log(notesArray)}
     </>
   )
