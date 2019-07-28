@@ -86,7 +86,6 @@ const TextsView = ({ textsArray, changeText})=>{
   )
 }
 const texts = ["first", "second", "third", "fourth", "fifth"];
-
 const Task6 = ()=>{
   const [textsArray, setTextsArray] = React.useState(texts);
   const changeText = (num, text)=>{
@@ -100,6 +99,47 @@ const Task6 = ()=>{
   )
 }
 
+const products = [
+  {name: "apple", price: 10, quantity: 5}, 
+  {name: "banaba", price: 23, quantity: 7}, 
+  {name: "orange", price: 17, quantity: 6}, 
+  {name: "meat", price: 99, quantity: 10}, 
+  {name: "cheese", price: 45, quantity: 2}, 
+];
+const ProductsView = ({product, total})=>{
+  return(
+    <tr>
+      <td style={{width: "100px"}}>{product.name}</td>
+      <td style={{width: "100px" }}>{product.price}</td>
+      <td style={{width: "100px" }}>{product.quantity}</td>
+      <td style={{ width: "100px" }}>{total(product.quantity, product.price)}</td>
+    </tr>
+  )
+}
+const Task7 = ()=>{
+  const [productsArray, setProductsArray] = React.useState(products);
+  const sumOfEachProduct = (quantity, price)=>{
+    return quantity*price
+  };
+  return(
+    <table>
+      <thead>
+        <tr>
+          <td style={{ width: "100px" }}>Name</td>
+          <td style={{ width: "100px" }}>Price, grn/kg</td>
+          <td style={{ width: "100px" }}>Quantity</td>
+          <td style={{ width: "100px" }}>Sum</td>
+        </tr>
+      </thead>
+      <tbody>
+        {productsArray.map((item, index)=>{
+          return <ProductsView product={item} total={(quantity, price) => sumOfEachProduct(quantity, price)} key={index}/>
+        })}
+      </tbody>
+    </table>
+  )
+}
+
 const Lesson10 = ()=>{
 
   return(
@@ -109,6 +149,10 @@ const Lesson10 = ()=>{
       <hr />
       <br />
       <Task6 />
+      <br />
+      <hr />
+      <br />
+      <Task7 />
 
     </>
   )
