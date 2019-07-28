@@ -10,13 +10,13 @@ const UserView = ({ user, showMessage }) => {
       <td>{user.name}</td>
       <td>{user.surname}</td>
       <td>{user.age}</td>
-      <td><button onClick={showMessage}>showAlert</button></td>
+      <td><button onClick={showMessage(user.name)}>showAlert</button></td>
     </tr>
   )
 }
 const Task1and2 = () => {
-  const showMessage = ()=>{
-    alert("!!!");
+  const showMessage = (msg)=>{
+    alert(msg);
   }
   const [userArray, setUserArray] = React.useState(users);
   return (
@@ -31,7 +31,7 @@ const Task1and2 = () => {
       </thead>
       <tbody>
         {userArray.map((item, index) => (
-          <UserView user={item} key={index} showMessage={showMessage}/>
+          <UserView user={item} key={index} showMessage={(msg)=>showMessage(msg)}/>
         ))}
       </tbody>
     </table>
