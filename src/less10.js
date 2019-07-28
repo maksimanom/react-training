@@ -17,11 +17,10 @@ const UserView = ({ user, deleteUser, num }) => {
     </tr>
   )
 }
-const Task1and2and3 = () => {
+const Task1and2and3and4and5 = () => {
   const [userArray, setUserArray] = React.useState(users);
 
   const deleteUser = (numOfUserToDelete)=>{
-    console.log(numOfUserToDelete);
     let firstArray = userArray.slice(0, numOfUserToDelete);
     let secondArray = userArray.slice(numOfUserToDelete+1, userArray.length);
     let finishedArray = firstArray.concat(secondArray);
@@ -48,12 +47,75 @@ const Task1and2and3 = () => {
   )
 }
 
+const TextsView = ({ textsArray, changeText})=>{ 
+
+  const LineWithText = ({item, index})=>{
+    let ref = React.useRef();
+    const [isVisibleInput, setIsVisibleInput] = React.useState(false);
+    const [isVisibleButton, setIsVisibleButton] = React.useState(true);
+    const handleClick = () => (
+      setIsVisibleInput(!isVisibleInput),
+      setIsVisibleButton(!isVisibleButton)
+    )
+    const handleBlur = (event) =>(
+      setIsVisibleInput(!isVisibleInput),
+      setIsVisibleButton(!isVisibleButton),
+      console.log(index),
+      console.log(ref.current.value),
+      changeText(index, ref.current.value)
+    )
+
+    return(
+      <tr>
+        <td style={{ width: "100px" }}>{item}</td>
+        <td style={{ margin: "30px", paddingLeft: "30px" }}>
+          {isVisibleButton ? <button onClick={handleClick}>Change</button> : ""}
+          {isVisibleInput ? <input ref={ref} onBlur={handleBlur}/> : ""}
+        </td>
+      </tr>
+    )
+  }
+  return(
+    <>
+    {textsArray.map((item, index)=>{
+      return(
+        <li key={index} >
+        <table>
+          <tbody>
+            <LineWithText item={item} index={index} />
+          </tbody>
+        </table>
+        </li>
+      )
+    })}
+    </>
+  )
+}
+const texts = ["first", "second", "third", "fourth", "fifth"];
+
+const Task6 = ()=>{
+  const [textsArray, setTextsArray] = React.useState(texts);
+  const changeText = (num, text)=>{
+    textsArray[num] = text;
+    setTextsArray(textsArray.concat([]));
+  }
+  return(
+    <ul>
+      <TextsView textsArray={textsArray} changeText={(num, text) => changeText(num, text)} />
+    </ul>
+  )
+}
 
 const Lesson10 = ()=>{
 
   return(
     <>
-      <Task1and2and3 />
+      <Task1and2and3and4and5 />
+      <br />
+      <hr />
+      <br />
+      <Task6 />
+
     </>
   )
 }
