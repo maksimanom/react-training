@@ -4,9 +4,9 @@ const users = [
   { name: "Alex", surname: "Kostenko", age: 20 },
   { name: "Ivan", surname: "Ivanov", age: 20 }
 ];
-const UserView = ({ user, showMessage1 }) => {
+const UserView = ({ user, showMessage1, num }) => {
   const handleClick = ()=>(
-    showMessage1(user.name)
+    showMessage1(num+1)
   )
   return (
     <tr>
@@ -34,7 +34,7 @@ const Task1and2and3 = () => {
       </thead>
       <tbody>
         {userArray.map((item, index) => (
-          <UserView user={item} key={index} showMessage1={(msg) =>showMessage(msg)}/>
+          <UserView key={index} user={item} showMessage1={(msg) =>showMessage(msg)} num={index}/>
         ))}
       </tbody>
     </table>
