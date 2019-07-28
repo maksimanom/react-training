@@ -66,25 +66,19 @@ const TextsView = ({ textsArray, changeText})=>{
     )
 
     return(
-      <tr>
-        <td style={{ width: "100px" }}>{item}</td>
-        <td style={{ margin: "30px", paddingLeft: "30px" }}>
-          {isVisibleButton ? <button onClick={handleClick}>Change</button> : ""}
-          {isVisibleInput ? <input ref={ref} onBlur={handleBlur}/> : ""}
-        </td>
-      </tr>
+      <>
+        {item}
+        {isVisibleButton ? <button onClick={handleClick}>Change</button> : ""}
+        {isVisibleInput ? <input ref={ref} onBlur={handleBlur}/> : ""}
+      </>
     )
   }
   return(
     <>
     {textsArray.map((item, index)=>{
       return(
-        <li key={index} >
-        <table>
-          <tbody>
+        <li key={index} style={{maxWidth: "250px", display: "flex", justifyContent: "space-between"}}>
             <LineWithText item={item} index={index} />
-          </tbody>
-        </table>
         </li>
       )
     })}
