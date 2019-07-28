@@ -35,7 +35,6 @@ const Task1and2 = () => {
         ))}
       </tbody>
     </table>
-      {showMessage}
     </>
   )
 }
