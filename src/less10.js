@@ -106,13 +106,17 @@ const products = [
   {name: "meat", price: 99, quantity: 10}, 
   {name: "cheese", price: 45, quantity: 2}, 
 ];
-const ProductsView = ({product, total})=>{
+const ProductsView = ({product, total, num, deleteItem})=>{
+  const handleClick = ()=>{
+    deleteItem(num);
+  }
   return(
     <tr>
-      <td style={{width: "100px"}}>{product.name}</td>
-      <td style={{width: "100px" }}>{product.price}</td>
-      <td style={{width: "100px" }}>{product.quantity}</td>
-      <td style={{ width: "100px" }}>{total(product.quantity, product.price)}</td>
+      <td style={{width: "100px"}}> {product.name}</td>
+      <td style={{width: "100px"}}> {product.price}</td>
+      <td style={{width: "100px"}}> {product.quantity}</td>
+      <td style={{width: "100px"}}> {total(product.quantity, product.price)}</td>
+      <td style={{width: "100px"}}> <button onClick={handleClick}>Delete</button> </td>
     </tr>
   )
 }
@@ -121,6 +125,12 @@ const Task7 = ()=>{
   const sumOfEachProduct = (quantity, price)=>{
     return quantity*price
   };
+  const deleteItem = (indexofItem)=>{
+    let firstArray = productsArray.slice(0, indexofItem);
+    let secondArray = productsArray.slice(indexofItem+1, productsArray.length);
+    let finishedArray = firstArray.concat(secondArray);
+    setProductsArray(finishedArray);
+  }
   return(
     <table>
       <thead>
@@ -133,7 +143,14 @@ const Task7 = ()=>{
       </thead>
       <tbody>
         {productsArray.map((item, index)=>{
-          return <ProductsView product={item} total={(quantity, price) => sumOfEachProduct(quantity, price)} key={index}/>
+          return(
+            <ProductsView
+              product={item}
+              total={(quantity, price) => sumOfEachProduct(quantity, price)}
+              num={index}
+              deleteItem={deleteItem}
+              key={index}/>
+          )
         })}
       </tbody>
     </table>
