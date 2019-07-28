@@ -122,6 +122,10 @@ const ProductsView = ({product, total, num, deleteItem})=>{
 }
 const Task7 = ()=>{
   const [productsArray, setProductsArray] = React.useState(products);
+  const [fieldsAreVisible, setFieldsAreVisible] = React.useState(false);
+  const nameRef = React.useRef();
+  const priceRef = React.useRef();
+  const quantityRef = React.useRef();
   const sumOfEachProduct = (quantity, price)=>{
     return quantity*price
   };
@@ -131,7 +135,23 @@ const Task7 = ()=>{
     let finishedArray = firstArray.concat(secondArray);
     setProductsArray(finishedArray);
   }
+  const addProduct = ()=>{
+    setFieldsAreVisible(!fieldsAreVisible);
+    if (fieldsAreVisible){
+      let obj = {name: nameRef.current.value, price: priceRef.current.value, quantity: quantityRef.current.value};
+      setProductsArray(productsArray.concat(obj));
+    }
+  }
   return(
+    <>
+    <div>
+      <button onClick={addProduct}>Add Product</button>
+        {fieldsAreVisible ? <>
+        <input ref={nameRef} placeholder="name of product" />
+        <input ref={priceRef} placeholder="price" />
+        <input ref={quantityRef} placeholder="quantity"/> </> 
+        : ""}
+    </div>
     <table>
       <thead>
         <tr>
@@ -154,6 +174,7 @@ const Task7 = ()=>{
         })}
       </tbody>
     </table>
+    </>
   )
 }
 
