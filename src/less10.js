@@ -4,20 +4,23 @@ const users = [
   { name: "Alex", surname: "Kostenko", age: 20 },
   { name: "Ivan", surname: "Ivanov", age: 20 }
 ];
-const UserView = ({ user, showMessage }) => {
+const UserView = ({ user, showMessage1 }) => {
+  const handleClick = ()=>(
+    showMessage1(user.name)
+  )
   return (
     <tr>
       <td>{user.name}</td>
       <td>{user.surname}</td>
       <td>{user.age}</td>
-      <td><button onClick={showMessage(user.name)}>showAlert</button></td>
+      <td><button onClick={handleClick}>showAlert</button></td>
     </tr>
   )
 }
-const Task1and2 = () => {
+const Task1and2and3 = () => {
   const showMessage = (msg)=>{
     alert(msg);
-  }
+  };
   const [userArray, setUserArray] = React.useState(users);
   return (
     <>
@@ -31,7 +34,7 @@ const Task1and2 = () => {
       </thead>
       <tbody>
         {userArray.map((item, index) => (
-          <UserView user={item} key={index} showMessage={(msg)=>showMessage(msg)}/>
+          <UserView user={item} key={index} showMessage1={(msg) =>showMessage(msg)}/>
         ))}
       </tbody>
     </table>
@@ -44,7 +47,7 @@ const Lesson10 = ()=>{
 
   return(
     <>
-    <Task1and2 />
+      <Task1and2and3 />
     </>
   )
 }
