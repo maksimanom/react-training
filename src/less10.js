@@ -109,9 +109,19 @@ const products = [
 const styleTd = {
   width: "100px"
 };
-const ProductsView = ({product, total, num, deleteItem})=>{
+const ProductsView = ({ product, total, num, deleteItem, sumOfCheckedProducts})=>{
   const handleClick = ()=>{
     deleteItem(num);
+  } 
+  const [isChecked, setIsChecked] = React.useState(true);
+  const handleCLick = ()=>{
+    setIsChecked(!isChecked);
+    if(isChecked){
+      sumOfCheckedProducts(total(product.quantity, product.price)); 
+    }else{
+      sumOfCheckedProducts(-total(product.quantity, product.price)); 
+    }
+         
   }
   return(
     <tr>
@@ -120,13 +130,11 @@ const ProductsView = ({product, total, num, deleteItem})=>{
       <td style={styleTd}> {product.quantity} </td>
       <td style={styleTd}> {total(product.quantity, product.price)} </td>
       <td style={styleTd}> <button onClick={handleClick}>Delete</button> </td>
-      <td style={styleTd}> <input type="checkbox" name={product.name} id={product.name}/> </td>
+      <td style={styleTd}> <input type="checkbox" name={product.name} id={product.name} checked={isChecked} onChange={handleCLick}/> </td>
     </tr>
   )
 }
 const ProductsSumTotal = ({productsArr1})=>{
-  console.log("productsArr1 in ProductsSumTotal:::");
-  console.log(productsArr1);
   // let products2 = [{ name: "kek", price: 10 }, { name: "lol", price: 10.5 }, { name: "arbidol", price: 10.25}];
   // let total = products2.reduce((accumulator, currentValue) => {
   //   console.log(accumulator.price);
@@ -153,6 +161,7 @@ const Task7and8and9and10 = ()=>{
   const sumOfEachProduct = (quantity, price)=>{
     return quantity*price
   };
+
   const deleteItem = (indexofItem)=>{
     let firstArray = productsArray.slice(0, indexofItem);
     let secondArray = productsArray.slice(indexofItem+1, productsArray.length);
@@ -165,6 +174,11 @@ const Task7and8and9and10 = ()=>{
       let obj = {name: nameRef.current.value, price: priceRef.current.value, quantity: quantityRef.current.value};
       setProductsArray(productsArray.concat(obj));
     }
+  }
+  const [sumOfCheckProducts, setSumOfCheckProducts] = React.useState(0);
+  const sumOfCheckedProducts = (num)=>{
+    let sum = sumOfCheckProducts + num;
+    setSumOfCheckProducts(sum);
   }
   return(
     <>
@@ -193,7 +207,8 @@ const Task7and8and9and10 = ()=>{
               total={(quantity, price) => sumOfEachProduct(quantity, price)}
               num={index}
               deleteItem={deleteItem}
-              key={index}/>
+              key={index}
+              sumOfCheckedProducts={(num) => sumOfCheckedProducts(num)}/>
           )
         })}
       </tbody>
@@ -204,7 +219,7 @@ const Task7and8and9and10 = ()=>{
           <td style={styleTd}></td>
           <td style={styleTd}><ProductsSumTotal productsArr1={productsArray} /></td>
           <td style={styleTd}></td>
-          <td style={styleTd}></td>
+          <td style={styleTd}>{sumOfCheckProducts}</td>
         </tr>
       </tfoot>
     </table>
