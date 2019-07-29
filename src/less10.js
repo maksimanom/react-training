@@ -106,21 +106,44 @@ const products = [
   {name: "meat", price: 99, quantity: 10}, 
   {name: "cheese", price: 45, quantity: 2}, 
 ];
+const styleTd = {
+  width: "100px"
+};
 const ProductsView = ({product, total, num, deleteItem})=>{
   const handleClick = ()=>{
     deleteItem(num);
   }
   return(
     <tr>
-      <td style={{width: "100px"}}> {product.name}</td>
-      <td style={{width: "100px"}}> {product.price}</td>
-      <td style={{width: "100px"}}> {product.quantity}</td>
-      <td style={{width: "100px"}}> {total(product.quantity, product.price)}</td>
-      <td style={{width: "100px"}}> <button onClick={handleClick}>Delete</button> </td>
+      <td style={ styleTd }> {product.name}</td>
+      <td style={styleTd}> {product.price}</td>
+      <td style={styleTd}> {product.quantity}</td>
+      <td style={styleTd}> {total(product.quantity, product.price)}</td>
+      <td style={styleTd}> <button onClick={handleClick}>Delete</button> </td>
     </tr>
   )
 }
-const Task7 = ()=>{
+const ProductsSumTotal = ({productsArr1})=>{
+  console.log("productsArr1 in ProductsSumTotal:::");
+  console.log(productsArr1);
+  // let products2 = [{ name: "kek", price: 10 }, { name: "lol", price: 10.5 }, { name: "arbidol", price: 10.25}];
+  // let total = products2.reduce((accumulator, currentValue) => {
+  //   console.log(accumulator.price);
+  //   console.log(currentValue.price);
+    
+  //   return (parseFloat(accumulator.price) + parseFloat(currentValue.price));
+  // });
+  let total = 0;
+  productsArr1.map((item, index)=>{
+    total += item.price*item.quantity;
+  })
+  return(
+    <h3>
+      {total}
+    </h3>
+  )
+}
+const Task7and8and9 = ()=>{
   const [productsArray, setProductsArray] = React.useState(products);
   const [fieldsAreVisible, setFieldsAreVisible] = React.useState(false);
   const nameRef = React.useRef();
@@ -155,10 +178,10 @@ const Task7 = ()=>{
     <table>
       <thead>
         <tr>
-          <td style={{ width: "100px" }}>Name</td>
-          <td style={{ width: "100px" }}>Price, grn/kg</td>
-          <td style={{ width: "100px" }}>Quantity</td>
-          <td style={{ width: "100px" }}>Sum</td>
+          <td style={styleTd}>Name</td>
+          <td style={styleTd}>Price, grn/kg</td>
+          <td style={styleTd}>Quantity</td>
+          <td style={styleTd}>Sum</td>
         </tr>
       </thead>
       <tbody>
@@ -173,6 +196,14 @@ const Task7 = ()=>{
           )
         })}
       </tbody>
+      <tfoot>
+        <tr>
+          <td style={styleTd}></td>
+          <td style={styleTd}></td>
+          <td style={styleTd}></td>
+          <td style={styleTd}><ProductsSumTotal productsArr1={productsArray} /></td>
+        </tr>
+      </tfoot>
     </table>
     </>
   )
@@ -181,7 +212,7 @@ const Task7 = ()=>{
 const Lesson10 = ()=>{
 
   return(
-    <>
+    <>  
       <Task1and2and3and4and5 />
       <br />
       <hr />
@@ -190,7 +221,7 @@ const Lesson10 = ()=>{
       <br />
       <hr />
       <br />
-      <Task7 />
+      <Task7and8and9 />
 
     </>
   )
