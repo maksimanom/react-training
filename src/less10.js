@@ -115,11 +115,12 @@ const ProductsView = ({product, total, num, deleteItem})=>{
   }
   return(
     <tr>
-      <td style={ styleTd }> {product.name}</td>
-      <td style={styleTd}> {product.price}</td>
-      <td style={styleTd}> {product.quantity}</td>
-      <td style={styleTd}> {total(product.quantity, product.price)}</td>
+      <td style={styleTd}> {product.name} </td>
+      <td style={styleTd}> {product.price} </td>
+      <td style={styleTd}> {product.quantity} </td>
+      <td style={styleTd}> {total(product.quantity, product.price)} </td>
       <td style={styleTd}> <button onClick={handleClick}>Delete</button> </td>
+      <td style={styleTd}> <input type="checkbox" name={product.name} id={product.name}/> </td>
     </tr>
   )
 }
@@ -143,7 +144,7 @@ const ProductsSumTotal = ({productsArr1})=>{
     </h3>
   )
 }
-const Task7and8and9 = ()=>{
+const Task7and8and9and10 = ()=>{
   const [productsArray, setProductsArray] = React.useState(products);
   const [fieldsAreVisible, setFieldsAreVisible] = React.useState(false);
   const nameRef = React.useRef();
@@ -202,6 +203,8 @@ const Task7and8and9 = ()=>{
           <td style={styleTd}></td>
           <td style={styleTd}></td>
           <td style={styleTd}><ProductsSumTotal productsArr1={productsArray} /></td>
+          <td style={styleTd}></td>
+          <td style={styleTd}></td>
         </tr>
       </tfoot>
     </table>
@@ -221,7 +224,7 @@ const Lesson10 = ()=>{
       <br />
       <hr />
       <br />
-      <Task7and8and9 />
+      <Task7and8and9and10 />
 
     </>
   )
