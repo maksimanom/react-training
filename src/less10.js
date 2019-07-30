@@ -113,13 +113,15 @@ const ProductsView = ({ product, total, num, deleteItem, sumOfCheckedProducts})=
   const handleClick = ()=>{
     deleteItem(num);
   } 
-  const [isChecked, setIsChecked] = React.useState(true);
-  const handleCLick = ()=>{
+  const [isChecked, setIsChecked] = React.useState(false);
+  
+  const handleCLick = ()=>{    
     setIsChecked(!isChecked);
+    console.log("isChecked   " + isChecked);
     if(isChecked){
-      sumOfCheckedProducts(total(product.quantity, product.price)); 
-    }else{
       sumOfCheckedProducts(-total(product.quantity, product.price)); 
+    }else{
+      sumOfCheckedProducts(total(product.quantity, product.price)); 
     }
          
   }
@@ -175,6 +177,7 @@ const Task7and8and9and10 = ()=>{
       setProductsArray(productsArray.concat(obj));
     }
   }
+  
   const [sumOfCheckProducts, setSumOfCheckProducts] = React.useState(0);
   const sumOfCheckedProducts = (num)=>{
     let sum = sumOfCheckProducts + num;
