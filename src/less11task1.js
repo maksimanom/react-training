@@ -41,7 +41,7 @@ const EmployeeView = ({ employee, num, changeEmployeeData})=>{
   )
 }
 
-const App = ()=>{
+const App1 = ()=>{
   const [employeeArray, setEmployeeArray] = React.useState(employeeFromServer);
 
   const changeEmployeeData = (num, newDaysWorked, newRate)=>{
@@ -61,7 +61,7 @@ const App = ()=>{
   return(
     <table>
       <thead>
-        <tr>
+        <tr className="headerTable">
           <td>Name</td>
           <td>Surname</td>
           <td>Days Worked</td>
@@ -91,4 +91,4 @@ const App = ()=>{
     </table>
   )
 }
-export default App
+export default App1

@@ -1,11 +1,14 @@
 import React from "react";
-import App from './less11task1';
+import App1 from './less11task1';
+import App2 from './less11task2';
 
 const Lesson11=()=>{
   
   return(
     <>
-    <App />
+    <App1 />
+    <br /> <hr /> <br/>
+    <App2 />
     </>
   )
 }
