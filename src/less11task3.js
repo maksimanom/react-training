@@ -35,7 +35,7 @@ const questionsanswersFromServer = [
     ]
   },
   {
-    id: 2,
+    id: 3,
     question: "Capital of USA?",
     rightAnswer: 1,
     answersArray: [
@@ -46,11 +46,19 @@ const questionsanswersFromServer = [
   }
 ];
 
-const ViewQuestion = ({question, changePage})=>{
+const ViewCurrentQuestion = ({id, answer})=>{
+
+
+
+  return(
+    <>
+      <FormControlLabel value={(id)} control={<Radio />} label={answer}/>
+    </>
+  )
+}
+
+const ViewQuestion = ({ questions, saveAnswer})=>{
   const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-    },
     formControl: {
       margin: theme.spacing(3),
     },
@@ -60,68 +68,144 @@ const ViewQuestion = ({question, changePage})=>{
   }));
   const classes = useStyles();
   const [value, setValue] = React.useState(-1);
+  const [currentQuestionNum, setCurrentQuestionNum] = React.useState(0);
 
-  function handleChange(event) {
-    setValue(parseInt(event.target.value)); 
+
+  const handleChange = (event) => {
+    setValue(parseInt(event.target.value));
+    saveAnswer(currentQuestionNum, event.target.value);
+    
   }
-  const handleClick=(num)=>{
-    changePage(num)    
+  const handleClick = (num) => {
+    changePage(num)
   }
+  const changePage = (num) => {
+    if ((currentQuestionNum) === (questions.length - 1) && num === +1) {
+      setCurrentQuestionNum(0);
+      return 0;
+    }
+    if ((currentQuestionNum + num) === -1) {
+      setCurrentQuestionNum(questions.length - 1);
+      return 0;
+    }
+    setCurrentQuestionNum(currentQuestionNum + num)
+  }
+  
 
   return(
     <Grid container spacing={2}>
-      <Grid item>
-        <ArrowBack onClick={()=>handleClick(-1)}/>
-      </Grid>
-      <Grid item>
-        <ArrowForward onClick={()=>handleClick(+1)}/>
-      </Grid>
       <Grid item xs={12}>
-        <h2>{question.question}</h2>
+        <h2>{questions[currentQuestionNum].question}</h2>
       </Grid>
       <Grid item>
         <FormControl component="fieldset" className={classes.formControl}>
           <RadioGroup
             aria-label="question"
-            name="gender1"
+            name={questions[currentQuestionNum].question}
             className={classes.group}
-            value={value}
+            value={(value)}
             onChange={handleChange}
           >
-            {question.answersArray.map((item, index)=>{
+            {questions[currentQuestionNum].answersArray.map((item, index)=>{
               return (            
-                  <FormControlLabel value={item.id} control={<Radio />} label={item.answer} />
+                <ViewCurrentQuestion id={item.id} answer={item.answer}/>
               )
             })}
           </RadioGroup>
         </FormControl>
       </Grid>
+      <Grid item>
+        <ArrowBack onClick={() => handleClick(-1)} />
+      </Grid>
+      <Grid item>
+        <ArrowForward onClick={() => handleClick(+1)} style={{ marginLeft: "50px" }} />
+      </Grid>
+
     </Grid>
+  )
+}
+
+//Test Results
+const ViewCheckedAnswers = ({ qaArray, answersArray })=>{
+  // const useStyles = makeStyles(theme => ({
+  //   formControl: {
+  //     margin: theme.spacing(3),
+  //   },
+  //   group: {
+  //     margin: theme.spacing(1, 0),
+  //   },
+  // }));
+  // const classes = useStyles();
+  console.log(
+    answersArray.map((item,index)=>{
+      return item
+    })
+  );
+  
+  return(
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h2>Test done!</h2>
+        </Grid>
+        <Grid item>
+          {qaArray.map((item, index)=>{
+            if (item.id === answersArray[index].id){
+              if (answersArray[index].answer===true){
+                return <div>Test {index+1} Done. Right answer was: {item.answersArray[item.rightAnswer].answer}</div>
+              } else {
+                return <div>Test {index+1} Missed. Right answer was: {item.answersArray[item.rightAnswer].answer}.</div>
+              }
+            }
+          })}
+        </Grid>
+      </Grid>
+    </>
   )
 }
 
 const App3 = ()=> {
   const [qaArray, setQaArray] = React.useState(questionsanswersFromServer);
-  const [currentQuestionNum, setCurrentQuestionNum] = React.useState(0);
-  
-  const changePage = (num)=>{
-    
-    if ((currentQuestionNum)===(qaArray.length-1) && num===+1){
-        setCurrentQuestionNum(0);
-        return 0;
-    }
-    if ((currentQuestionNum+num)===-1) {
-      setCurrentQuestionNum(qaArray.length-1);
-      return 0;
-    }
-    setCurrentQuestionNum(currentQuestionNum + num)
+  const [answersArray, setAnswersArray] = React.useState([]);
+  const [showedAnswers, setShowedAnswers] = React.useState(false);
+
+  const saveAnswer = (idOfQuestion, answer)=>{
+    let obj = {id: idOfQuestion, answer: parseInt(answer)};
+    answersArray[idOfQuestion]=obj;
+    setAnswersArray(answersArray.concat([]));
   }
 
+  const handleClick = ()=>{    
+    for (let i=0; i<qaArray.length; i++){
+      // adding answers, that not passed
+      if (answersArray[i]===undefined){
+        let tmpObj = {id: i, answer: -1}
+        answersArray[i] = tmpObj;
+        setAnswersArray(answersArray.concat([]));
+      }
+      // answers that compared 
+      if(qaArray[i].id===answersArray[i].id){
+        if (qaArray[i].rightAnswer === answersArray[i].answer){
+          let passedObj = {id: i, answer: true}
+          answersArray[i] = passedObj;
+        } else {
+          let passedObj = { id: i, answer: false }
+          answersArray[i] = passedObj;
+        }
+        setAnswersArray(answersArray.concat([]));
+      }      
+    }
+    setShowedAnswers(true);
+  }
+  console.log(answersArray);
+  
   return (
     <>
-      {
-        <ViewQuestion question={qaArray[currentQuestionNum]} changePage={(num)=>changePage(num)}/>
+      { !showedAnswers ?
+      <ViewQuestion questions={qaArray} saveAnswer={(idOfQuestion, answer) => saveAnswer(idOfQuestion, answer)}/>
+        : <ViewCheckedAnswers qaArray={qaArray} answersArray={answersArray}/>
       }
+      <button onClick={handleClick}> Pass the test </button>
     </>
   )
 }
