@@ -28,10 +28,10 @@ const ViewList = ({ listArray, changeDoneTask, deleteTask, changeTextTask})=>{
     if (event.target.name === 'changeTextTask') {
       if (visibleInput){
         changeTextTask(id, textToEdit);
+        setVisibleInput(!visibleInput);
         return 0
       }
       setVisibleInput(!visibleInput);
-      return 0
     }
   }
   const handleChange = (event)=>{
