@@ -10,7 +10,11 @@ const styleDoneTask = {
   textDecoration: "line-through"
 }
 
-const ViewList = ({ listArray, changeDoneTask, deleteTask})=>{
+const ViewList = ({ listArray, changeDoneTask, deleteTask, changeTextTask})=>{
+  const [visibleInput, setVisibleInput] = React.useState(false);
+  //ref is not working because it's using only for last item on map
+  //used simple variable
+  let textToEdit = "";
 
   const handleClick = (event, id)=>{
     if (event.target.name ==='changeDone'){
@@ -21,6 +25,17 @@ const ViewList = ({ listArray, changeDoneTask, deleteTask})=>{
       deleteTask(id);
       return 0
     }
+    if (event.target.name === 'changeTextTask') {
+      if (visibleInput){
+        changeTextTask(id, textToEdit);
+        return 0
+      }
+      setVisibleInput(!visibleInput);
+      return 0
+    }
+  }
+  const handleChange = (event)=>{
+    textToEdit = event.target.value;
   }
 
   return(
@@ -33,14 +48,14 @@ const ViewList = ({ listArray, changeDoneTask, deleteTask})=>{
               {item.id+1}
             </td>
             <td>
-              {/* { item.done ?
-                <span>item.text</span>
-                : <span >item.text</span>
-              } */}
                 <span style={!item.done ? {fontWeight: "bold"} : styleDoneTask}>{item.text}</span>
             </td>
             <td>
               <input type="checkbox" name="changeDone" id={item.id} onClick={handleClick}/>
+            </td>
+            <td>
+                <button name="changeTextTask" onClick={(event) => handleClick(event, item.id)}>Change</button>
+                {visibleInput ? <input type="text" onChange={handleChange}/> : ""}
             </td>
             <td>
               <button name="deleteTask" onClick={(event)=>handleClick(event, item.id)}>Delete</button>
@@ -58,13 +73,15 @@ const App4 = ()=>{
   const addTaskInputkRef = React.useRef();
 
   const handleClick = ()=>{
-    let id = toDoList[toDoList.length-1].id+1;
+    let id = 0;
+    if(toDoList.length>=1){
+      id = toDoList[toDoList.length - 1].id + 1;
+    }
     let text = addTaskInputkRef.current.value;
     let tmpObj={id: id, text: text, done: false};
     toDoList.push(tmpObj);
     setToDoList(toDoList.concat([]));
   }
-
   const changeDoneTask = (id)=>{    
     toDoList.map((item, index)=>{      
       if (item.id===parseInt(id)){        
@@ -74,7 +91,6 @@ const App4 = ()=>{
       }
     })
   }
-
   const deleteTask = (id) =>{
     let num = -1;
     toDoList.map((item, index)=>{
@@ -91,7 +107,17 @@ const App4 = ()=>{
     });
     setToDoList(finishedArray);
   }
-  console.log(toDoList);
+  const changeTextTask = (id, text)=>{    
+    let num = -1;
+    toDoList.map((item, index)=>{
+      if (item.id===id){
+        num = index;
+        return 0
+      }
+    })
+    toDoList[num]={id: id, text: text, done: false};    
+    setToDoList(toDoList.concat([]));
+  };
   
   return(
     <>
@@ -99,6 +125,7 @@ const App4 = ()=>{
         listArray={toDoList}
         changeDoneTask={(id, done) => changeDoneTask(id, done)}
         deleteTask={(id) => deleteTask(id)}
+        changeTextTask={(id, text) => changeTextTask(id, text)}
       />
       <input type="text" ref={addTaskInputkRef} style={{marginTop: "30px"}}/><button onClick={handleClick}>Add task</button>
     </>
