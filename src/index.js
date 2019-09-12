@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Lesson10 from './less10';
+import Lesson11 from './less11';
 
 ReactDOM.render(
-  <Lesson10 />,
+  <Lesson11 />,
   document.getElementById('root')
 );
