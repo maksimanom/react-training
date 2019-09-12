@@ -31,7 +31,7 @@ class Lesson5 extends React.Component {
         <ul>
           {list}
         </ul>
-        <button name="addItem" onClick={this.handleClick.bind(this)}>Add item with handleClick</button>
+        <button name="addItem"  onClick={this.handleClick.bind(this)}>Add item with handleClick</button>
         <button name="deleteLastItem" onClick={this.deleteItem.bind(this, this.state.names.length-1)}>Delete last item</button>
       </div>
     );
