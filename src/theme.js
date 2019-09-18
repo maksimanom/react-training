@@ -20,7 +20,7 @@ const theme = createMuiTheme({
       root: {
         fontSize: "45px",
         color: "red"
-      },
+      }
     }
   },
   palette: {
@@ -28,8 +28,24 @@ const theme = createMuiTheme({
       light: "#757ce8",
       main: "#38b6ff",
       dark: "#002884",
-      contrastText: "#fff"
+      contrastText: "#fff",
+      buttonsLinksToPost: "#343A40",
     }
+  },
+  typography: {
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+      '"Lato"'
+    ].join(",")
   }
 });
 

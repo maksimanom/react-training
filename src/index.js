@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Lesson5 from './less5';
 import Header from './Component/headerLego/header';
+import Footer from './Component/footerLego/footer';
+import HomePage from './Component/homePageLego/homePageLego';
 
 ReactDOM.render(
   <>
   <Header/>
+  <HomePage />
+  <Footer />
   </>,
   document.getElementById('root')
 );

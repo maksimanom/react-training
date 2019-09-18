@@ -1,65 +1,79 @@
 import React from "react";
-import "./header.scss";
 import theme from "../../theme.js";
 import { ThemeProvider } from "@material-ui/styles";
 import {
   AppBar,
   Toolbar,
-  Typography,
   Grid,
-  Avatar,
-  SvgIcon
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import classnames from 'classnames';
-import cn from "classnames";
 
-const classNames = cn;
 const useStyles = makeStyles(theme => ({
   root: {
-    "& .logo": {
-      backgroundImage: `url("img/logo1.svg")`,
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat"
+    fontFamily: "Lato"
+  },
+  appBar: {
+    height: 85,
+    flexDirection: "column",
+    alignItems: "space-between",
+    justifyContent: "space-between"
+  },
+  logo: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    letterSpacing: "0.2em",
+    height: 80,
+    width: "inherit"
+  },
+  logo__text: {
+    marginTop: 4,
+    height: 60,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "space-between",
+    justifyContent: "space-between",
+    letterSpacing: "0.2em",
+    marginLeft: "5px",
+    fontFamily: "Lato",
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    fontSize: 20,
+    "& span": {
+      fontWeight: "normal"
     }
   },
-  menuButton: {
-    marginRight: theme.spacing(2)
+  logoImage: {
+    backgroundImage: "url('logo.svg')",
+    backgroundRepeat: "no-repeat",
+    width: 80,
+    height: "inherit"
   }
 }));
 
 const Header = () => {
-  const [values, setValues] = React.useState({
-    age: "",
-    name: "hai"
-  });
-  function handleChange(event) {
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value
-    }));
-  }
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <>
-    <ThemeProvider theme={theme}>
-      <AppBar position="static" color={theme.primary}>
-        <Toolbar>
-          <Grid container>
-            <Grid item xs={3} className="logo">
-              <div />
+      <ThemeProvider theme={theme}>
+        <AppBar
+          position="static"
+          color={theme.primary}
+          className={classes.appBar}
+        >
+          <Toolbar className={classes.appBar}>
+            <Grid container className={classes.logo}>
+              <Grid item className={classes.logoImage} />
+              <Grid item className={classes.logo__text}>
+                  LeGO <br /> ADVeNTUReS
+                <span>Rob Smith Blog</span>
+              </Grid>
             </Grid>
-            <Grid item xs={3}>
-              <div className="logo" />
-            </Grid>
-          </Grid>
-          <Grid />
-        </Toolbar>
-      </AppBar>
-    </ThemeProvider>
+            <Grid />
+          </Toolbar>
+        </AppBar>
+      </ThemeProvider>
     </>
   );
 };
