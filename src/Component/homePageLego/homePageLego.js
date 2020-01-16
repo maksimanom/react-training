@@ -12,6 +12,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {
+    margin: "0 auto",
     fontFamily: "Lato",
     width: 1200,
     display: "flex",
