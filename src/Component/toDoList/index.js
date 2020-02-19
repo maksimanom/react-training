@@ -1,163 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import ls from "local-storage";
+
 import Button from "@material-ui/core/Button";
-import { AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import { AppBar, Toolbar, Grid, Paper, List } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import ListView from "./listView";
+import "./table.scss";
+
 let listFromServer = [
-  { id: 0, text: "Learn JS", done: false },
+  { id: 0, text: "Learn JS", done: true },
   { id: 1, text: "Visit University", done: false },
-  { id: 2, text: "Read React docs", done: false }
+  { id: 2, text: "Read React docs", done: true }
 ];
-const styleDoneTask = {
-  textDecoration: "line-through"
-};
-
-const ViewList = ({
-  listArray,
-  changeDoneTask,
-  deleteTask,
-  changeTextTask
-}) => {
-  const [visibleInput, setVisibleInput] = React.useState(false);
-  //ref is not working because it's using only for last item on map
-  //used simple variable
-  let textToEdit = "";
-
-  const handleClick = (event, id) => {
-    if (event.target.name === "changeDone") {
-      changeDoneTask(event.target.id);
-      return 0;
-    }
-    if (event.target.name === "deleteTask") {
-      deleteTask(id);
-      return 0;
-    }
-    if (event.target.name === "changeTextTask") {
-      if (visibleInput) {
-        changeTextTask(id, textToEdit);
-        setVisibleInput(!visibleInput);
-        return 0;
-      }
-      setVisibleInput(!visibleInput);
-    }
-  };
-  const handleChange = event => {
-    textToEdit = event.target.value;
-  };
-
-  return (
-    <table>
-      <tbody>
-        {listArray.map((item, index) => {
-          return (
-            <tr key={index}>
-              <td>{item.id + 1}</td>
-              <td>
-                <span
-                  style={!item.done ? { fontWeight: "bold" } : styleDoneTask}
-                >
-                  {item.text}
-                </span>
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  name="changeDone"
-                  id={item.id}
-                  onClick={handleClick}
-                />
-              </td>
-              <td>
-                <button
-                  name="changeTextTask"
-                  onClick={event => handleClick(event, item.id)}
-                >
-                  Change
-                </button>
-                {visibleInput ? (
-                  <input type="text" onChange={handleChange} />
-                ) : (
-                  ""
-                )}
-              </td>
-              <td>
-                <button
-                  name="deleteTask"
-                  onClick={event => handleClick(event, item.id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-};
+ls.set("listData", listFromServer);
 
 const ToDoList = () => {
-  const [toDoList, setToDoList] = React.useState(listFromServer);
-  const addTaskInputkRef = React.useRef();
+  const [listData, setList] = React.useState(ls.get("listData"));
 
-  const handleClick = () => {
-    let id = 0;
-    if (toDoList.length >= 1) {
-      id = toDoList[toDoList.length - 1].id + 1;
-    }
-    let text = addTaskInputkRef.current.value;
-    let tmpObj = { id: id, text: text, done: false };
-    toDoList.push(tmpObj);
-    setToDoList(toDoList.concat([]));
-  };
-  const changeDoneTask = id => {
-    toDoList.map((item, index) => {
-      if (item.id === parseInt(id)) {
-        item.done = !item.done;
-        setToDoList(toDoList.concat([]));
-        return 0;
-      }
-    });
-  };
-  const deleteTask = id => {
-    let num = -1;
-    toDoList.map((item, index) => {
-      if (item.id === id) {
-        num = index;
-        return 0;
-      }
-    });
-    const firstPart = toDoList.slice(0, num);
-    const secondPart = toDoList.slice(num + 1, toDoList.length);
-    const finishedArray = firstPart.concat(secondPart);
-    finishedArray.map((item, index) => {
-      item.id = index;
-    });
-    setToDoList(finishedArray);
-  };
-  const changeTextTask = (id, text) => {
-    let num = -1;
-    toDoList.map((item, index) => {
-      if (item.id === id) {
-        num = index;
-        return 0;
-      }
-    });
-    toDoList[num] = { id: id, text: text, done: false };
-    setToDoList(toDoList.concat([]));
-  };
-
+  console.log("global listData: ", listData);  
   return (
-    <>
-      <ViewList
-        listArray={toDoList}
-        changeDoneTask={(id, done) => changeDoneTask(id, done)}
-        deleteTask={id => deleteTask(id)}
-        changeTextTask={(id, text) => changeTextTask(id, text)}
-      />
-      <input type="text" ref={addTaskInputkRef} style={{ marginTop: "30px" }} />
-      <button onClick={handleClick}>Add task</button>
-    </>
+    <ListView
+      listData={listData}
+      setList={setList}
+    />
   );
 };
 
