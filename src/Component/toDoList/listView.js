@@ -2,7 +2,10 @@ import React from "react";
 import TaskView from "./taskView";
 
 const ListView = ({ listData, setList }) => {
-  console.log("ListView listData", listData);  
+  const handleSetList = (list) =>{
+    setList(list);
+  }
+
   return (
     <table>
       <thead>
@@ -19,7 +22,7 @@ const ListView = ({ listData, setList }) => {
           return (
             <TaskView
               listData={listData}
-              setList={setList}
+              setList={list => handleSetList(list)}
               item={item}
               key={index}
             />

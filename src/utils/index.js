@@ -21,7 +21,6 @@ export const changePerform = (listData, id) =>{
   listData.map((item) => {
     if (item.id === id) {
       item.done = !item.done;
-      console.log(item);      
     }
   }); 
   return listData;

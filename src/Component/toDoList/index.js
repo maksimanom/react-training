@@ -13,18 +13,17 @@ let listFromServer = [
   { id: 1, text: "Visit University", done: false },
   { id: 2, text: "Read React docs", done: true }
 ];
-ls.set("listData", listFromServer);
+ls.set("listData", JSON.stringify(listFromServer));
 
 const ToDoList = () => {
-  const [listData, setList] = React.useState(ls.get("listData"));
+  const [listData, setList] = React.useState(JSON.parse(ls.get("listData")));
 
-  console.log("global listData: ", listData);  
-  return (
-    <ListView
-      listData={listData}
-      setList={setList}
-    />
-  );
+  const handleSetList = list => {
+    ls.set("listData", JSON.stringify(list));
+    setList(JSON.parse(ls.get("listData")));
+  };
+
+  return <ListView listData={listData} setList={list => handleSetList(list)} />;
 };
 
 export default ToDoList;

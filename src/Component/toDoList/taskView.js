@@ -23,15 +23,14 @@ const TaskView = ({ listData, setList, item }) => {
     setList(modifiedArray);
   };
 
-  console.log("taskView listData", listData);  
-  const handleChangeTask = () => {
+  const handleChangeTask = (e) => {
     if (visibleEditInput && editRef.current.value !== "") {
       const modifiedArray = changeTask(
         listData,
         item.id,
         editRef.current.value
       );
-      setList(modifiedArray);  
+      setList(modifiedArray);
     }
     setVisibleEditInput(!visibleEditInput);
   };
@@ -39,7 +38,6 @@ const TaskView = ({ listData, setList, item }) => {
   const handleChangePerform = () => {
     const modifiedArray = changePerform(listData, item.id);
     setList(modifiedArray);
-    console.log("modified array", modifiedArray);
   };
 
   return (
