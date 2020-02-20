@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 
-import {addTask} from "../../utils";
+import { addTask } from "../../utils";
 
 const AddTask = ({ classes, handleSetList }) => {
   const [textNewTask, setTextNewTask] = React.useState("");
 
-  const handleAddTask = (text)=>{
+  const handleAddTask = text => {
     const listWithAddedTask = addTask(text);
-    handleSetList(listWithAddedTask);
-  }
+    if (listWithAddedTask !== 0) {
+      handleSetList(listWithAddedTask);
+    }
+  };
 
   return (
     <div className={classes.newTaskContainer}>
@@ -18,9 +20,9 @@ const AddTask = ({ classes, handleSetList }) => {
         value={textNewTask}
         onChange={event => setTextNewTask(event.target.value)}
       />
-      <button onClick={()=>handleAddTask(textNewTask)}>add task</button>
+      <button onClick={() => handleAddTask(textNewTask)}>add task</button>
     </div>
   );
 };
 
-export default AddTask
+export default AddTask;

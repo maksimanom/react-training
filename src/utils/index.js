@@ -11,30 +11,33 @@ export const deleteTask = (listData, id) => {
   return finishedArray;
 };
 
-export const changeTask = (listData, id, text) => {  
+export const changeTask = (listData, id, text) => {
   listData = JSON.parse(ls.get("listData"));
-  listData.map((item)=>{
-    if (item.id===id){
+  listData.map(item => {
+    if (item.id === id) {
       item.text = text;
     }
-  })
+  });
   return listData;
 };
 
-export const changePerform = (listData, id) =>{ 
+export const changePerform = (listData, id) => {
   listData = JSON.parse(ls.get("listData"));
-  listData.map((item) => {
+  listData.map(item => {
     if (item.id === id) {
       item.done = !item.done;
     }
-  }); 
+  });
   return listData;
-}
+};
 
-export const addTask = (newTaskText)=>{
-  let listData = JSON.parse(ls.get("listData"));
-  const id = listData[listData.length-1].id+1;
-  const newTaskObj = {id: id, text:newTaskText, done: false};
-  listData.push(newTaskObj);
-  return listData;
-}
+export const addTask = newTaskText => {
+  if (newTaskText !== "") {
+    let listData = JSON.parse(ls.get("listData"));
+    const id = listData[listData.length - 1].id + 1;
+    const newTaskObj = { id: id, text: newTaskText, done: false };
+    listData.push(newTaskObj);
+    return listData;
+  }
+  return 0;
+};
