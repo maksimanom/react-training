@@ -1,7 +1,7 @@
 import ls from "local-storage";
 
-export const deleteTask = (listData, id) => {
-  listData = JSON.parse(ls.get("listData"));
+export const deleteTask = (id) => {
+  const listData = JSON.parse(ls.get("listData"));
   const firstPart = listData.slice(0, id);
   const secondPart = listData.slice(id + 1, listData.length);
   const finishedArray = firstPart.concat(secondPart);
@@ -11,8 +11,8 @@ export const deleteTask = (listData, id) => {
   return finishedArray;
 };
 
-export const changeTask = (listData, id, text) => {
-  listData = JSON.parse(ls.get("listData"));
+export const changeTask = (id, text) => {
+  let listData = JSON.parse(ls.get("listData"));
   listData.map(item => {
     if (item.id === id) {
       item.text = text;
@@ -21,8 +21,8 @@ export const changeTask = (listData, id, text) => {
   return listData;
 };
 
-export const changePerform = (listData, id) => {
-  listData = JSON.parse(ls.get("listData"));
+export const changePerform = (id) => {
+  let listData = JSON.parse(ls.get("listData"));
   listData.map(item => {
     if (item.id === id) {
       item.done = !item.done;
