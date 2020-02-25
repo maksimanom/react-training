@@ -34,7 +34,10 @@ export const changePerform = (id) => {
 export const addTask = newTaskText => {
   if (newTaskText !== "") {
     let listData = JSON.parse(ls.get("listData"));
-    const id = listData[listData.length - 1].id + 1;
+    let id = 0;
+    if (listData !== undefined && listData !== null && listData.length >= 1) {
+      id = listData[listData.length - 1].id + 1;
+    }    
     const newTaskObj = { id: id, text: newTaskText, done: false };
     listData.push(newTaskObj);
     return listData;

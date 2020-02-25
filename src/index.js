@@ -8,7 +8,7 @@ import ToDoList from "./Component/toDoList";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <ToDoList />
+    <ToDoList/>
   </ThemeProvider>,
   document.getElementById("root")
 );

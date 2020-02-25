@@ -1,6 +1,8 @@
 import React from "react";
 
+import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
+import { useTheme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
@@ -9,15 +11,20 @@ import { addTask } from "../../../utils";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    marginTop: "20px",
     display: "flex",
-    flexFlow: "row wrap"
+    flexFlow: "row wrap",
+    justifyContent: "center",
+    "& .MuiButton-root ": {
+      backgroundColor: theme.palette.primary.main,
+      color: "#ffffff"
+    }
   }
 }));
 
 const AddTask = ({ handleSetList }) => {
   const [textNewTask, setTextNewTask] = React.useState("");
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles(theme);
 
   const handleAddTask = text => {
     const listWithAddedTask = addTask(text);
@@ -28,8 +35,10 @@ const AddTask = ({ handleSetList }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root} component="div">
       <TextField
+        size="small"
+        multiline
         value={textNewTask}
         label="Enter new task"
         onChange={e => setTextNewTask(e.target.value)}
@@ -37,7 +46,7 @@ const AddTask = ({ handleSetList }) => {
       <Button variant="contained" onClick={() => handleAddTask(textNewTask)}>
         Add Task
       </Button>
-    </div>
+    </Box>
   );
 };
 

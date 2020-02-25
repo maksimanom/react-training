@@ -6,12 +6,21 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListView from "./listView/listView";
 import AddTask from "./addTask/addTask";
 
-let listFromServer = [
-  { id: 0, text: "Learn JS", done: true },
-  { id: 1, text: "Visit University", done: false },
-  { id: 2, text: "Read React docs", done: true }
-];
-ls.set("listData", JSON.stringify(listFromServer));
+// checking list items, if NO founded => setting default data
+if (
+  JSON.parse(ls.get("listData")) === null ||
+  JSON.parse(ls.get("listData")) === undefined ||
+  JSON.parse(ls.get("listData")).length == 0
+) {
+  ls.set(
+    "listData",
+    JSON.stringify([
+      { id: 0, text: "Learn JS", done: true },
+      { id: 1, text: "Visit University", done: false },
+      { id: 2, text: "Read React docs", done: true }
+    ])
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +49,7 @@ const ToDoList = () => {
       direction="column"
       justify="center"
       className={classes.root}
+      spacing={3}
     >
       <Grid item xs={12}>
         <ListView listData={listData} setList={list => handleSetList(list)} />

@@ -17,14 +17,18 @@ import Paper from "@material-ui/core/Paper";
 import TaskView from "../taskView/taskView";
 
 const useStyles = makeStyles(theme => ({
-  root: {},
-  listTable: {
+  root: {
     width: "100%",
     "& tr": {
       textAlign: "center"
     },
     "& thead": {
       fontWeight: "bold"
+    },
+    "& 	.MuiTableCell-head": {
+      backgroundColor: theme.palette.tableHead.primary,
+      color: "#ffffff",
+      textAlign: "center"
     }
   }
 }));
@@ -37,8 +41,8 @@ const ListView = ({ listData, setList }) => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.listTable} aria-label="simple table">
+    <TableContainer component={Paper} className={classes.root}>
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>
