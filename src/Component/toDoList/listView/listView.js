@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
       textAlign: "center",
       "@media (max-width: 1280px)": {
         "& .headButtonChangePerfomance, .headButtonDelete": {
-          display: "none"
+          // display: "none"
         }
       }
     },
@@ -57,9 +57,6 @@ const ListView = ({ listData, setList }) => {
             </TableCell>
             <TableCell className="headButtonChangePerfomance">
               <SpellcheckIcon />
-            </TableCell>
-            <TableCell className="headButtonChangeText">
-              <ListAltIcon />
             </TableCell>
             <TableCell className="headButtonDelete">
               <DeleteSweepIcon />

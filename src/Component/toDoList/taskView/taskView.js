@@ -11,6 +11,7 @@ import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 
@@ -27,15 +28,15 @@ const useStyles = makeStyles(theme => ({
     "& .Mui-checked": {
       color: theme.palette.secondary.main
     },
+    "& .MuiTextField-root": {
+      "& .MuiInput-underline:before": {
+        borderBottom: "none"
+      }
+    },
     "@media (max-width: 1280px)": {
       "& .itemChangePerformButton, .itemDeleteButton": {
-        display: "none"
+        // display: "none"
       },
-      "& .textOfItem": {
-        textOverflow: "ellipsis",
-        wordWrap: "break-word",
-        wordBreak: "break-all"
-      }
     }
   },
   textCompleted: {
@@ -81,14 +82,11 @@ const TaskView = ({ setList, item }) => {
 
   const handleChangeTask = e => {
     if (!item.done) {
-      setAnchorEl(e.currentTarget);
-      setOpen(prev => placement !== "top" || !prev);
-      setPlacement("top");
-      if (open && newTaskText !== "" && !item.done) {
+      if (newTaskText !== "" && !item.done) {
         e.preventDefault();
         const modifiedArray = changeTask(item.id, newTaskText);
         setList(modifiedArray);
-        setNewTaskText("");        
+        setNewTaskText("");
       }
     } else {
       alert("Change task execution status firstly!");
@@ -105,14 +103,17 @@ const TaskView = ({ setList, item }) => {
       <TableCell component="th" scope="row" align="center">
         {item.id + 1}
       </TableCell>
-      <TableCell
-        className={classNames(
-          item.done ? classes.textCompleted : classes.textUnCompleted,
-          item.done ? classes.taskCompleted : classes.taskUnCompleted,
-          "textOfItem"
-        )}
-      >
-        {item.text}
+      <TableCell>
+        <TextField
+          fullWidth
+          multiline
+          defaultValue={item.text}
+          onChange={e => setNewTaskText(e.target.value)}
+          onBlur={e => handleChangeTask(e)}
+          className={classNames(
+            item.done ? classes.textCompleted : classes.textUnCompleted
+          )}
+        />
       </TableCell>
       <TableCell className="itemChangePerformButton">
         <CheckBoxChangePerform
@@ -122,7 +123,7 @@ const TaskView = ({ setList, item }) => {
           handleChangePerform={handleChangePerform}
         />
       </TableCell>
-      <TableCell className="itemChangeTextButton">
+      {/* <TableCell className="itemChangeTextButton">
         <EditIcon
           name="changeTask"
           onClick={handleChangeTask}
@@ -153,14 +154,15 @@ const TaskView = ({ setList, item }) => {
             </Fade>
           )}
         </Popper>
-      </TableCell>
+      </TableCell> */}
       <TableCell className="itemDeleteButton">
         <DeleteForeverIcon
           onClick={handleDeleteTask}
           name="deleteTask"
-          className={
-            item.done ? classes.taskCompleted : classes.taskUnCompleted
-          }
+          className={classNames(
+            item.done ? classes.taskCompleted : classes.taskUnCompleted,
+            item.done ? classes.textCompleted : classes.textUnCompleted
+          )}
         />
       </TableCell>
     </TableRow>
