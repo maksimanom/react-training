@@ -7,6 +7,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import Popper from "@material-ui/core/Popper";
+import Fade from "@material-ui/core/Fade";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTheme } from "@material-ui/core/styles";
 
@@ -27,9 +31,10 @@ const useStyles = makeStyles(theme => ({
       "& .itemChangePerformButton, .itemDeleteButton": {
         display: "none"
       },
-      "& .textOfItem":{
-        width:"100px",
+      "& .textOfItem": {
         textOverflow: "ellipsis",
+        wordWrap: "break-word",
+        wordBreak: "break-all"
       }
     }
   },
@@ -60,8 +65,11 @@ const CheckBoxChangePerform = ({ name, id, checked, handleChangePerform }) => {
 };
 
 const TaskView = ({ setList, item }) => {
-  const [visibleEditInput, setVisibleEditInput] = React.useState(false);
   const [newTaskText, setNewTaskText] = React.useState("");
+  // for Popper (change task)
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [placement, setPlacement] = React.useState();
 
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -72,17 +80,19 @@ const TaskView = ({ setList, item }) => {
   };
 
   const handleChangeTask = e => {
-    if (visibleEditInput && newTaskText !== "" && !item.done) {
-      const modifiedArray = changeTask(item.id, newTaskText);
-      setList(modifiedArray);
-      setNewTaskText("");
+    if (!item.done) {
+      setAnchorEl(e.currentTarget);
+      setOpen(prev => placement !== "top" || !prev);
+      setPlacement("top");
+      if (open && newTaskText !== "" && !item.done) {
+        e.preventDefault();
+        const modifiedArray = changeTask(item.id, newTaskText);
+        setList(modifiedArray);
+        setNewTaskText("");        
+      }
+    } else {
+      alert("Change task execution status firstly!");
     }
-    if (item.done && visibleEditInput) {
-      setVisibleEditInput(!visibleEditInput);
-    }
-    !item.done
-      ? setVisibleEditInput(!visibleEditInput)
-      : alert("Change task execution status firstly!");
   };
 
   const handleChangePerform = () => {
@@ -120,14 +130,29 @@ const TaskView = ({ setList, item }) => {
             item.done ? classes.taskCompleted : classes.taskUnCompleted
           }
         />
-        {visibleEditInput ? (
-          <TextField
-            value={newTaskText}
-            label="Change task"
-            onChange={e => setNewTaskText(e.target.value)}
-            name="editTask"
-          />
-        ) : null}
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          placement={placement}
+          transition
+        >
+          {({ TransitionProps }) => (
+            <Fade {...TransitionProps} timeout={350}>
+              <Paper>
+                <form action="get" onSubmit={handleChangeTask}>
+                  <Typography className={classes.typography}>
+                    <TextField
+                      value={newTaskText}
+                      label="Change task"
+                      onChange={e => setNewTaskText(e.target.value)}
+                      name="editTask"
+                    />
+                  </Typography>
+                </form>
+              </Paper>
+            </Fade>
+          )}
+        </Popper>
       </TableCell>
       <TableCell className="itemDeleteButton">
         <DeleteForeverIcon
