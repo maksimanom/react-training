@@ -6,11 +6,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListView from "./listView/listView";
 import AddTask from "./addTask/addTask";
 
-// checking list items, if NO founded => setting default data
+// checking list items in local storage, if NO founded => setting default data
 if (
   JSON.parse(ls.get("listData")) === null ||
   JSON.parse(ls.get("listData")) === undefined ||
-  JSON.parse(ls.get("listData")).length == 0
+  JSON.parse(ls.get("listData")).length === 0
 ) {
   ls.set(
     "listData",
@@ -24,7 +24,8 @@ if (
 
 const useStyles = makeStyles(theme => ({
   root: {
-    fontFamily: "Roboto"
+    fontFamily: "Roboto",
+    overflow: "hidden"
   },
   newTaskContainer: {
     marginTop: "20px",
@@ -49,12 +50,11 @@ const ToDoList = () => {
       direction="column"
       justify="center"
       className={classes.root}
-      spacing={3}
     >
-      <Grid item xs={12}>
+      <Grid item xs={11} sm={9}>
         <ListView listData={listData} setList={list => handleSetList(list)} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={11} sm={9} className={classes.newTaskContainer}>
         <AddTask handleSetList={list => handleSetList(list)} />
       </Grid>
     </Grid>

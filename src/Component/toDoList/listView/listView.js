@@ -18,9 +18,13 @@ import TaskView from "../taskView/taskView";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
     "& tr": {
-      textAlign: "center"
+      textAlign: "center",
+      "@media (max-width: 1280px)": {
+        "& .headButtonChangePerfomance, .headButtonDelete": {
+          display: "none"
+        }
+      }
     },
     "& thead": {
       fontWeight: "bold"
@@ -51,13 +55,13 @@ const ListView = ({ listData, setList }) => {
             <TableCell>
               <TextFormatIcon />
             </TableCell>
-            <TableCell>
+            <TableCell className="headButtonChangePerfomance">
               <SpellcheckIcon />
             </TableCell>
-            <TableCell>
+            <TableCell className="headButtonChangeText">
               <ListAltIcon />
             </TableCell>
-            <TableCell>
+            <TableCell className="headButtonDelete">
               <DeleteSweepIcon />
             </TableCell>
           </TableRow>
@@ -75,38 +79,6 @@ const ListView = ({ listData, setList }) => {
         </TableBody>
       </Table>
     </TableContainer>
-    // <table className={classes.listTable}>
-    //   <thead>
-    //     <tr>
-    //       <td>
-    //         <FormatListNumberedIcon />
-    //       </td>
-    //       <td>
-    //         <TextFormatIcon />
-    //       </td>
-    //       <td>
-    //         <SpellcheckIcon />
-    //       </td>
-    //       <td>
-    //         <ListAltIcon />
-    //       </td>
-    //       <td>
-    //         <DeleteSweepIcon />
-    //       </td>
-    //     </tr>
-    //   </thead>
-    //   <tbody>
-    //     {listData.map((item, index) => {
-    //       return (
-    //         <TaskView
-    //           setList={list => handleSetList(list)}
-    //           item={item}
-    //           key={index}
-    //         />
-    //       );
-    //     })}
-    //   </tbody>
-    // </table>
   );
 };
 

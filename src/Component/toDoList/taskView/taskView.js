@@ -23,9 +23,13 @@ const useStyles = makeStyles(theme => ({
     "& .Mui-checked": {
       color: theme.palette.secondary.main
     },
-    "& .MuiTextField-root": {
-      "&$focused": {
-        color: theme.palette.primary.main
+    "@media (max-width: 1280px)": {
+      "& .itemChangePerformButton, .itemDeleteButton": {
+        display: "none"
+      },
+      "& .textOfItem":{
+        width:"100px",
+        textOverflow: "ellipsis",
       }
     }
   },
@@ -94,21 +98,21 @@ const TaskView = ({ setList, item }) => {
       <TableCell
         className={classNames(
           item.done ? classes.textCompleted : classes.textUnCompleted,
-          item.done ? classes.taskCompleted : classes.taskUnCompleted
+          item.done ? classes.taskCompleted : classes.taskUnCompleted,
+          "textOfItem"
         )}
       >
         {item.text}
       </TableCell>
-      <TableCell>
+      <TableCell className="itemChangePerformButton">
         <CheckBoxChangePerform
           name={item.text}
           id={item.id}
           checked={item.done}
           handleChangePerform={handleChangePerform}
-          className={{ color: "red" }}
         />
       </TableCell>
-      <TableCell>
+      <TableCell className="itemChangeTextButton">
         <EditIcon
           name="changeTask"
           onClick={handleChangeTask}
@@ -125,7 +129,7 @@ const TaskView = ({ setList, item }) => {
           />
         ) : null}
       </TableCell>
-      <TableCell>
+      <TableCell className="itemDeleteButton">
         <DeleteForeverIcon
           onClick={handleDeleteTask}
           name="deleteTask"
