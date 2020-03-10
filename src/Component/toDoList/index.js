@@ -25,12 +25,15 @@ if (
 const useStyles = makeStyles(theme => ({
   root: {
     fontFamily: "Roboto",
-    overflow: "hidden"
-  },
-  newTaskContainer: {
-    marginTop: "20px",
-    display: "flex",
-    flexFlow: "row wrap"
+    overflow: "hidden",
+    "& .listTable": {
+      width: "100%"
+    },
+    "& .newTaskContainer": {
+      margin: "20px 0",
+      display: "flex",
+      flexFlow: "row nowrap"
+    }
   }
 }));
 
@@ -51,10 +54,10 @@ const ToDoList = () => {
       justify="center"
       className={classes.root}
     >
-      <Grid item xs={11} sm={9}>
+      <Grid item xs={11} sm={9} className="listTable">
         <ListView listData={listData} setList={list => handleSetList(list)} />
       </Grid>
-      <Grid item xs={11} sm={9} className={classes.newTaskContainer}>
+      <Grid item xs={11} sm={9} className="newTaskContainer">
         <AddTask handleSetList={list => handleSetList(list)} />
       </Grid>
     </Grid>

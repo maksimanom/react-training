@@ -12,12 +12,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     display: "flex",
-    flexFlow: "row wrap",
+    flexFlow: "row nowrap",
     justifyContent: "center",
     "& .MuiButton-root ": {
+      width: "148px",
       backgroundColor: theme.palette.primary.main,
       color: "#ffffff"
-    }
+    },
   }
 }));
 
@@ -39,6 +40,7 @@ const AddTask = ({ handleSetList }) => {
       <TextField
         size="small"
         multiline
+        fullWidth
         value={textNewTask}
         label="Enter new task"
         onChange={e => setTextNewTask(e.target.value)}
