@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ListView = ({ listData, setList }) => {
-  const [orderBy, setOrderBy] = React.useState(["id", "asc"]);
+  const [orderBy, setOrderBy] = React.useState(["id", "desc"]);
   const classes = useStyles();
 
   const handleSetList = list => {
@@ -66,6 +66,10 @@ const ListView = ({ listData, setList }) => {
     handleSetList(newSortedArray);
   };
 
+  useEffect(() => {
+    handleChangeOrderBy("id");
+  }, []);
+  
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table component="div">
