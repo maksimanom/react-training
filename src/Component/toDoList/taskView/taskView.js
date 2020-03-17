@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
         borderBottom: "none"
       }
     },
-    "& .MuiInputBase-root":{
+    "& .MuiInputBase-root": {
       color: "inherit"
     }
   },
@@ -62,6 +62,7 @@ const TaskView = ({ setList, item }) => {
   };
 
   const handleChangeTask = e => {
+    setNewTaskText(e.target.value);
     if (!item.done) {
       if (newTaskText !== "" && !item.done) {
         e.preventDefault();
@@ -89,9 +90,10 @@ const TaskView = ({ setList, item }) => {
           fullWidth
           multiline
           disabled={item.done}
-          defaultValue={item.text}
-          onChange={e => setNewTaskText(e.target.value)}
-          onBlur={e => handleChangeTask(e)}
+          value={item.text}
+          onChange={e => {
+            handleChangeTask(e);
+          }}
           className={classNames(
             item.done ? classes.taskCompleted : classes.taskUnCompleted
           )}

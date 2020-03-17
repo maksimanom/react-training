@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
@@ -11,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 
 import TaskView from "../taskView/taskView";
@@ -31,16 +32,38 @@ const useStyles = makeStyles(theme => ({
     "& .svgIconWrapper ": {
       display: "flex",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      color: "currentColor",
+      "& .MuiTableSortLabel-icon, .MuiTableSortLabel-root, .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon": {
+        color: "currentColor"
+      }
     }
   }
 }));
 
 const ListView = ({ listData, setList }) => {
+  const [orderBy, setOrderBy] = React.useState(["id", "asc"]);
   const classes = useStyles();
 
   const handleSetList = list => {
     setList(list);
+  };
+
+  const handleChangeOrderBy = field => {
+    const newSortRule = orderBy[1] === "asc" ? "desc" : "asc";
+    setOrderBy([field, newSortRule]);
+    let newSortedArray = [...listData].concat([]);
+    if (newSortRule === "asc") {
+      newSortedArray.sort((a, b) => {
+        return a[field] - b[field];
+      });
+    }
+    if (newSortRule === "desc") {
+      newSortedArray.sort((a, b) => {
+        return b[field] - a[field];
+      });
+    }
+    handleSetList(newSortedArray);
   };
 
   return (
@@ -50,7 +73,14 @@ const ListView = ({ listData, setList }) => {
           <TableRow component="div">
             <TableCell component="div">
               <div className="svgIconWrapper">
-                <FormatListNumberedIcon />
+                <TableSortLabel
+                  active={orderBy[0] === "id"}
+                  direction={orderBy[1]}
+                  onClick={() => handleChangeOrderBy("id")}
+                  className={classes.sortLabelIcon}
+                >
+                  <FormatListNumberedIcon />
+                </TableSortLabel>
               </div>
             </TableCell>
             <TableCell component="div">
@@ -60,7 +90,13 @@ const ListView = ({ listData, setList }) => {
             </TableCell>
             <TableCell component="div" className="headButtonChangePerfomance">
               <div className="svgIconWrapper">
-                <SpellcheckIcon />
+                <TableSortLabel
+                  active={orderBy[0] === "done"}
+                  direction={orderBy[1]}
+                  onClick={() => handleChangeOrderBy("done")}
+                >
+                  <SpellcheckIcon />
+                </TableSortLabel>
               </div>
             </TableCell>
             <TableCell component="div" className="headButtonDelete">
