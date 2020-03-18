@@ -15,6 +15,8 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 
 import TaskView from "../taskView/taskView";
+import { TableFooter, TablePagination } from "@material-ui/core";
+import { cutListPagination } from "../../../utils";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,12 +39,22 @@ const useStyles = makeStyles(theme => ({
       "& .MuiTableSortLabel-icon, .MuiTableSortLabel-root, .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon": {
         color: "currentColor"
       }
+    },
+    "& .MuiTablePagination-root": {
+      overflow: "inherit"
     }
   }
 }));
 
 const ListView = ({ listData, setList }) => {
   const [orderBy, setOrderBy] = React.useState(["id", "desc"]);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState(0);
+  const [currentListArrayToShow, setCurrentListArrayToShow] = React.useState(
+    () => {
+      return [...listData].slice(0, rowsPerPage);
+    }
+  );
   const classes = useStyles();
 
   const handleSetList = list => {
@@ -69,7 +81,28 @@ const ListView = ({ listData, setList }) => {
   useEffect(() => {
     handleChangeOrderBy("id");
   }, []);
-  
+
+  useEffect(() => {
+    handleChangePage(null, page);
+  }, [listData, rowsPerPage]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    const arrayToShow = cutListPagination(rowsPerPage, newPage);
+    setCurrentListArrayToShow(arrayToShow);
+  };
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+    let arrayToShow = [];
+    if (rowsPerPage === -1) {
+      arrayToShow = [...listData];
+    } else {
+      arrayToShow = cutListPagination(rowsPerPage, 0);
+    }
+    setCurrentListArrayToShow(arrayToShow);
+  };
+
   return (
     <TableContainer component={Paper} className={classes.root}>
       <Table component="div">
@@ -111,7 +144,7 @@ const ListView = ({ listData, setList }) => {
           </TableRow>
         </TableHead>
         <TableBody component="div">
-          {listData.map((item, index) => {
+          {currentListArrayToShow.map((item, index) => {
             return (
               <TaskView
                 setList={list => handleSetList(list)}
@@ -122,6 +155,16 @@ const ListView = ({ listData, setList }) => {
           })}
         </TableBody>
       </Table>
+      <TablePagination
+        component="div"
+        colSpan={4}
+        rowsPerPageOptions={[1, 3, 5, 10, { label: "All", value: -1 }]}
+        count={listData.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </TableContainer>
   );
 };

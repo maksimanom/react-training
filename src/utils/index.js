@@ -45,3 +45,19 @@ export const addTask = newTaskText => {
   }
   return null;
 };
+
+export const cutListPagination = (rowsPerPage, page) => {
+  const listData = JSON.parse(ls.get("listData"));
+  const cycles = Math.ceil(listData.length / rowsPerPage);
+  let cutedList = [];
+  for (let i = 0; i < cycles; i++) {
+    let tmpArray = [];
+    for (let j = i * rowsPerPage; j < i * rowsPerPage + rowsPerPage; j++) {
+      if (listData[j] !== undefined) {
+        tmpArray.push(listData[j]);
+      }
+    }
+    cutedList.push(tmpArray);
+  }
+  return cutedList[page];
+};
