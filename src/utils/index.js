@@ -48,6 +48,9 @@ export const addTask = newTaskText => {
 
 export const cutListPagination = (rowsPerPage, page) => {
   const listData = JSON.parse(ls.get("listData"));
+  if(rowsPerPage===-1){
+    return listData
+  }
   const cycles = Math.ceil(listData.length / rowsPerPage);
   let cutedList = [];
   for (let i = 0; i < cycles; i++) {

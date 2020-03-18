@@ -92,15 +92,10 @@ const ListView = ({ listData, setList }) => {
     setCurrentListArrayToShow(arrayToShow);
   };
   const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const newNumberOfRows = parseInt(event.target.value, 10);
+    setRowsPerPage(newNumberOfRows);
     setPage(0);
-    let arrayToShow = [];
-    if (rowsPerPage === -1) {
-      arrayToShow = [...listData];
-    } else {
-      arrayToShow = cutListPagination(rowsPerPage, 0);
-    }
-    setCurrentListArrayToShow(arrayToShow);
+    setCurrentListArrayToShow(cutListPagination(newNumberOfRows, 0));
   };
 
   return (
