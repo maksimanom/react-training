@@ -2,9 +2,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CssBaseline, AppBar, Toolbar, List } from "@material-ui/core/";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Modal from "./Component/modal"
-import Form from "./Component/form"
-import Table from "./Component/table"
+import Modal from "./Component/modal";
+import Form from "./Component/form";
+import Table from "./Component/table";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,13 +36,11 @@ const App = () => {
             <Link to="/table">Table</Link>
           </Toolbar>
         </AppBar>
-        <Grid item xs={10}>
-          <Switch>
-            <Route exact path="/modal" component={Modal} />
-            <Route path="/form" component={Form} />
-            <Route path="/table" component={Table} />
-          </Switch>
-        </Grid>
+        <Switch>
+          <Route exact path="/modal" component={Modal} />
+          <Route path="/form" component={Form} />
+          <Route path="/table" component={Table} />
+        </Switch>
       </Grid>
     </Router>
   );
