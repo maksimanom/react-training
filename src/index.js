@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Lesson11 from './less11';
+import App from './App';
 
 ReactDOM.render(
-  <Lesson11 />,
+  <App />,
   document.getElementById('root')
 );
