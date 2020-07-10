@@ -18,23 +18,35 @@ const useStyles = makeStyles((theme) => ({
 
 const Table = () => {
   const classes = useStyles();
-  
-  const { users } = useTable();
+
+  const { users, onSortClick } = useTable();
+  const headerData = [
+    { label: "Name", propType: "string", propName: "name" },
+    { label: "Surname", propType: "string", propName: "surname" },
+    { label: "Age", propType: "number", propName: "age" },
+    { label: "Currently working", propType: "boolean", propName: "working" },
+  ];
 
   return (
     <table className={classes.root}>
       <thead>
         <tr>
-          <td className="bigCell">Name</td>
-          <td className="bigCell">Surname</td>
-          <td>Age</td>
-          <td>Working</td>
+          {headerData.map((item, index) => {
+            return (
+              <td
+                key={index}
+                onClick={() => onSortClick(item.propName, item.propType)}
+              >
+                {item.label}
+              </td>
+            );
+          })}
         </tr>
       </thead>
       <tbody>
-        {users.map((item) => {
+        {users.map((item, index) => {
           return (
-            <tr>
+            <tr key={index}>
               <td>{item.name}</td>
               <td>{item.surname}</td>
               <td>{item.age}</td>
