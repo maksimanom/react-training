@@ -1,25 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { TextField } from "@material-ui/core";
 
-import useTable from "./useTable";
+import usersArray from "../../utils/constants.json";
+import useTable from "./useTable_";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     fontSize: 20,
     textAlign: "center",
     "& thead": {
-      backgroundColor: "#c4c4c4",
-      "& .bigCell": {
-        width: 200,
-      },
+      color: "red"
     },
   },
 }));
 
 const Table = () => {
   const classes = useStyles();
+  const [usersToShow, setUsersToShow] = React.useState([]);
+  const [currentPageNum, setCurrentPageNum] = React.useState(0);
 
-  const { users, onSortClick } = useTable();
+  const { result, setFilter, setCurrentPage, setItemsPerPage, setSort } = useTable(usersArray);
+
   const headerData = [
     { label: "Name", propType: "string", propName: "name" },
     { label: "Surname", propType: "string", propName: "surname" },
@@ -27,35 +29,42 @@ const Table = () => {
     { label: "Currently working", propType: "boolean", propName: "working" },
   ];
 
+  const handleSearchChange = ({ target: { value } }) => setFilter(value);
+
   return (
-    <table className={classes.root}>
-      <thead>
-        <tr>
-          {headerData.map((item, index) => {
-            return (
+    <>
+      <table className={classes.root}>
+        <thead>
+          <tr>
+            <td colSpan={headerData.length / 2}>
+              <TextField fullWidth onChange={(e) => handleSearchChange(e)} />
+            </td>
+          </tr>
+          <tr>
+            {headerData.map((item, index) => (
               <td
                 key={index}
-                onClick={() => onSortClick(item.propName, item.propType)}
               >
                 {item.label}
               </td>
+            )
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {result.map((item, index) => {
+            return (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.surname}</td>
+                <td>{item.age}</td>
+                <td>{item.working ? "yes" : "no"}</td>
+              </tr>
             );
           })}
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((item, index) => {
-          return (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.surname}</td>
-              <td>{item.age}</td>
-              <td>{item.working ? "yes" : "no"}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </>
   );
 };
 export default Table;
