@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import * as _ from "lodash";
 
 const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => {
@@ -33,12 +33,14 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
     setState({ ...state, itemsPerPage: Number(string) });
   }
 
+  const filteredData = useMemo(() => data.filter(handleFilter), [state.filter, data]);
+
   // TODO add pagination here
-  const result = data
-    .filter(handleFilter)
+  const result = filteredData
     .sort((a, b) => 0)
     .slice(itemsFrom, itemsTo);
 
+  console.log("state", state);
   return {
     result,
     setSort,

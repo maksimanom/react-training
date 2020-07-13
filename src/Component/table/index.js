@@ -17,10 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Table = () => {
   const classes = useStyles();
-  const [usersToShow, setUsersToShow] = React.useState([]);
-  const [currentPageNum, setCurrentPageNum] = React.useState(0);
 
-  const { result, setFilter, setCurrentPage, setItemsPerPage, setSort } = useTable(usersArray);
+  const { result, setFilter } = useTable(usersArray);
 
   const headerData = [
     { label: "Name", propType: "string", propName: "name" },
