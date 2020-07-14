@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import * as _ from "lodash";
 
 const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => {
   const [state, setState] = useState(initialValue);
@@ -12,7 +11,6 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
       return true;
     }
     const regExp = new RegExp(state.filter.split(/\s+/g)
-      .filter(string => string.length > 1)
       .join('|'), "gi");
     return regExp.test(item.name) || regExp.test(item.surname)
   }
@@ -47,7 +45,7 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
   }
 
   const setFilter = (string) => {
-    setState({ ...state, filter: string });
+    setState({ ...state, filter: string, currentPage: 0 });
   }
 
   const setCurrentPage = (string) => {
@@ -59,24 +57,25 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
   }
 
   const filteredData = useMemo(() => data.filter(handleFilter), [state.filter, data]);
-  // const sortedData = filteredData.sort()
+  const sortedData = state.sort ? filteredData.sort(getSortFunction()) : filteredData;
 
-  const countOfPages = Math.ceil(filteredData.length / state.itemsPerPage);
-  const arrayOfPages = new Array(countOfPages).fill(null).map((_, index) => index);
 
-  // TODO add pagination here
-  const result = filteredData
-    .sort(state.sort ? getSortFunction() : (a, b) => 0)
-    .slice(itemsFrom, itemsTo);
+  const result = sortedData.slice(itemsFrom, itemsTo);
+  const { currentPage } = state;
+  const { itemsPerPage } = state;
+  const { filter } = state;
+  const countOfPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  console.log("state", state);
   return {
     result,
     setSort,
     setFilter,
     setCurrentPage,
     setItemsPerPage,
-    arrayOfPages
+    countOfPages,
+    currentPage,
+    itemsPerPage,
+    filter
   };
 };
 
