@@ -69,7 +69,7 @@ const Table = () => {
     left: 0,
     top: 0,
     showed: false,
-    userIndex: -1,
+    user: {}
   });
 
   const handleSearchChange = ({ target: { value } }) => setFilter(value);
@@ -82,12 +82,12 @@ const Table = () => {
     setModalSettings((prev) => ({ ...prev, showed: false }));
   };
 
-  const handleOpenUserWindow = (e, index) => {
+  const handleOpenUserWindow = (e, user) => {
     setModalSettings({
       left: e.clientX,
       top: e.clientY,
       showed: true,
-      userIndex: index,
+      user: user,
     });
   };
 
@@ -95,14 +95,9 @@ const Table = () => {
     setModalSettings((prev) => ({ ...prev, showed: false }));
   };
 
-  const handleDeleteUser = () => {
-    const firstArrayPart = usersArray.slice(0, modalSettings.userIndex);
-    const secondArrayPart = usersArray.slice(
-      modalSettings.userIndex + 1,
-      usersArray.length
-    );
-    setUsersArray(firstArrayPart.concat(secondArrayPart));
-    setModalSettings((prev) => ({ ...prev, showed: false }));
+  const handleDeleteUser = (user) => {
+    deleteUser(user);
+    setModalSettings({ showed: false });
   };
 
   const Highlight = ({ toFound, prop }) => {
@@ -150,7 +145,7 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {result.map((item, index) => {
+              {result.length ? result.map((item, index) => {
                 return (
                   <tr key={index}>
                     <td>
@@ -167,14 +162,14 @@ const Table = () => {
                         onClick={(e) =>
                           handleOpenUserWindow(
                             e,
-                            itemsPerPage * currentPage + index
+                            item
                           )
                         }
                       />
                     </td>
                   </tr>
                 );
-              })}
+              }) : <tr><td colSpan={5}>NO USER PRESENT IN TABLE</td></tr>}
             </tbody>
           </table>
           {modalSettings.showed ? (
@@ -184,18 +179,18 @@ const Table = () => {
                 style={{ left: modalSettings.left, top: modalSettings.top }}
               >
                 <button>Change</button>
-                <button onClick={() => handleDeleteUser()}>Delete</button>
+                <button onClick={() => handleDeleteUser(modalSettings.user)}>Delete</button>
                 <button onClick={handleCloseModal}>X</button>
               </div>
             </Portal>
           ) : null}
         </>
       ) : (
-        <div>
-          Waiting a response from a server
-          <CircularProgress />
-        </div>
-      )}
+          <div>
+            Waiting a response from a server
+            <CircularProgress />
+          </div>
+        )}
     </>
   );
 };

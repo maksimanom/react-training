@@ -1,4 +1,6 @@
-import usersArray from "../utils/constants.json";
+import usersArrayFromFile from "../utils/constants.json";
+
+let usersArray = usersArrayFromFile;
 
 export const getUsers = () => {
   return new Promise((res, rej) => {
@@ -19,7 +21,8 @@ export const editUser = (user) => {
 export const deleteUser = (user) => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      res(user);
-    }, 1500);
+      const newArray = usersArray.filter((userInArray) => userInArray.id !== user.id);
+      usersArray = newArray;
+    }, 500);
   });
 };
