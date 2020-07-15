@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { TextField, CircularProgress } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { useStyles } from "./styles";
 
 import {
   getUsers,
@@ -12,39 +12,12 @@ import {
 import useTable from "./useTable_";
 import { Pagination } from "../pagination";
 import Portal from "../portal";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    fontSize: 20,
-    textAlign: "center",
-    borderCollapse: "collapse",
-    "& thead, tfoot": {
-      color: "red",
-    },
-    "& tbody tr": {
-      borderBottom: "1px dotted black",
-      borderCollapse: "collapse",
-    },
-  },
-  editColumn: {
-    paddingLeft: 50,
-  },
-  editIcon: {
-    cursor: "pointer",
-  },
-  portalModal: {
-    padding: 10,
-    borderRadius: 3,
-    backgroundColor: "#FF7355",
-    textAlign: "center",
-    zIndex: 1200,
-    position: "fixed",
-  },
-}));
+import { EditUserWindow } from "../editUser";
 
 const Table = () => {
   const classes = useStyles();
   const [usersArray, setUsersArray] = useState([]);
+  const [userDataChangeInput, setUserDataChangeInput] = useState({});
   getUsers().then(setUsersArray);
 
   const {
@@ -69,7 +42,8 @@ const Table = () => {
     left: 0,
     top: 0,
     showed: false,
-    user: {}
+    editingUser: false,
+    user: {},
   });
 
   const handleSearchChange = ({ target: { value } }) => setFilter(value);
@@ -92,7 +66,28 @@ const Table = () => {
   };
 
   const handleCloseModal = () => {
-    setModalSettings((prev) => ({ ...prev, showed: false }));
+    setModalSettings((prev) => ({
+      ...prev,
+      showed: false,
+      user: {},
+      editingUser: false,
+    }));
+  };
+
+  const handleOpenEditUser = () => {
+    setModalSettings((prev) => ({ ...prev, editingUser: true }));
+  };
+  const handleEditUserData = (field, value) => {
+    setUserDataChangeInput((prev) => ({ ...prev, [field]: value }));
+  };
+  const handleChangeUserDataClick = () => {
+    const newUser = {
+      id: modalSettings.user.id,
+      name: userDataChangeInput.name,
+      surname: userDataChangeInput.surname,
+    };
+    editUser(newUser);
+    handleCloseModal();
   };
 
   const handleDeleteUser = (user) => {
@@ -145,31 +140,32 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {result.length ? result.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>
-                      <Highlight toFound={filter} prop={item.name} />
-                    </td>
-                    <td>
-                      <Highlight toFound={filter} prop={item.surname} />
-                    </td>
-                    <td>{item.age}</td>
-                    <td>{item.working ? "yes" : "no"}</td>
-                    <td>
-                      <MoreHorizIcon
-                        className={classes.editIcon}
-                        onClick={(e) =>
-                          handleOpenUserWindow(
-                            e,
-                            item
-                          )
-                        }
-                      />
-                    </td>
-                  </tr>
-                );
-              }) : <tr><td colSpan={5}>NO USER PRESENT IN TABLE</td></tr>}
+              {result.length ? (
+                result.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>
+                        <Highlight toFound={filter} prop={item.name} />
+                      </td>
+                      <td>
+                        <Highlight toFound={filter} prop={item.surname} />
+                      </td>
+                      <td>{item.age}</td>
+                      <td>{item.working ? "yes" : "no"}</td>
+                      <td>
+                        <MoreHorizIcon
+                          className={classes.editIcon}
+                          onClick={(e) => handleOpenUserWindow(e, item)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={5}>NO USER PRESENT IN TABLE</td>
+                </tr>
+              )}
             </tbody>
           </table>
           {modalSettings.showed ? (
@@ -178,19 +174,33 @@ const Table = () => {
                 className={classes.portalModal}
                 style={{ left: modalSettings.left, top: modalSettings.top }}
               >
-                <button>Change</button>
-                <button onClick={() => handleDeleteUser(modalSettings.user)}>Delete</button>
-                <button onClick={handleCloseModal}>X</button>
+                {modalSettings.editingUser ? (
+                  <EditUserWindow
+                    user={modalSettings.user}
+                    handleEditUserData={handleEditUserData}
+                    handleChangeUserDataClick={handleChangeUserDataClick}
+                  />
+                ) : (
+                  <>
+                    <button onClick={() => handleOpenEditUser()}>Edit</button>
+                    <button
+                      onClick={() => handleDeleteUser(modalSettings.user)}
+                    >
+                      Delete
+                    </button>
+                    <button onClick={handleCloseModal}>X</button>
+                  </>
+                )}
               </div>
             </Portal>
           ) : null}
         </>
       ) : (
-          <div>
-            Waiting a response from a server
-            <CircularProgress />
-          </div>
-        )}
+        <div>
+          Waiting a response from a server
+          <CircularProgress />
+        </div>
+      )}
     </>
   );
 };

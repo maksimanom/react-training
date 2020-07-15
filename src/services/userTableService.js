@@ -13,7 +13,7 @@ export const getUsers = () => {
 export const editUser = (user) => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      res(user);
+      console.log(user);
     }, 1500);
   });
 };
@@ -21,7 +21,9 @@ export const editUser = (user) => {
 export const deleteUser = (user) => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      const newArray = usersArray.filter((userInArray) => userInArray.id !== user.id);
+      const newArray = usersArray.filter(
+        (userInArray) => userInArray.id !== user.id
+      );
       usersArray = newArray;
     }, 500);
   });
