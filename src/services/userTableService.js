@@ -5,6 +5,7 @@ let usersArray = usersArrayFromFile;
 export const getUsers = () => {
   return new Promise((res, rej) => {
     setTimeout(() => {
+      // const action = Math.random() > .5 ? res : rej;
       res(usersArray);
     }, 500);
   });
@@ -19,6 +20,7 @@ export const editUser = (user) => {
       const newArray = [...usersArray];
       newArray[userIndex] = user;
       usersArray = newArray;
+      console.log(user);
     }, 100);
   });
 };

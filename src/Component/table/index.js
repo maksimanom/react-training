@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, CircularProgress } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -17,8 +17,24 @@ import { EditUserWindow } from "../editUser";
 const Table = () => {
   const classes = useStyles();
   const [usersArray, setUsersArray] = useState([]);
+  const [serverError, setServerError] = React.useState(false);
   const [userDataChangeInput, setUserDataChangeInput] = useState({});
-  getUsers().then(setUsersArray);
+
+  getUsers()
+    .then((res) => {
+      setUsersArray(res);
+      setServerError(false);
+    })
+    .catch(() => {
+      setServerError(true);
+    });
+
+  const headerData = [
+    { label: "Name", propType: "string", propName: "name" },
+    { label: "Surname", propType: "string", propName: "surname" },
+    { label: "Age", propType: "number", propName: "age" },
+    { label: "Currently working", propType: "boolean", propName: "working" },
+  ];
 
   const {
     result,
@@ -31,12 +47,6 @@ const Table = () => {
     filter,
   } = useTable(usersArray);
 
-  const headerData = [
-    { label: "Name", propType: "string", propName: "name" },
-    { label: "Surname", propType: "string", propName: "surname" },
-    { label: "Age", propType: "number", propName: "age" },
-    { label: "Currently working", propType: "boolean", propName: "working" },
-  ];
   const [isReversedSort, setIsReversedSort] = useState(false);
   const [modalSettings, setModalSettings] = useState({
     left: 0,
@@ -98,6 +108,10 @@ const Table = () => {
     }
     return <div dangerouslySetInnerHTML={{ __html: prop }}></div>;
   };
+
+  if (serverError) {
+    return "Server ERROR. Reload page, please!";
+  }
 
   return (
     <>

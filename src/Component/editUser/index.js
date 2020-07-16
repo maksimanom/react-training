@@ -27,11 +27,14 @@ export const EditUserWindow = ({
         fullWidth
         onChange={(e) => handleEditUserData(e.target.name, e.target.value)}
       />
-      <Checkbox
-        defaultChecked={user.working}
-        name="working"
-        onClick={(e) => handleEditUserData(e.target.name, e.target.checked)}
-      />
+      <div>
+        Working
+        <Checkbox
+          defaultChecked={user.working}
+          name="working"
+          onClick={(e) => handleEditUserData(e.target.name, e.target.checked)}
+        />
+      </div>
       <Button
         variant="contained"
         type="submit"

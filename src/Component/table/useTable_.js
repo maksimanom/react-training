@@ -1,6 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
-const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => {
+const useTable = (
+  data,
+  initialValue = { currentPage: 0, itemsPerPage: 10 }
+) => {
   const [state, setState] = useState(initialValue);
 
   const itemsFrom = state.currentPage * state.itemsPerPage;
@@ -10,12 +13,16 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
     if (!state.filter) {
       return true;
     }
-    const regExp = new RegExp(state.filter.split(/\s+/g)
-      .join('|'), "gi");
-    return regExp.test(item.name) || regExp.test(item.surname)
-  }
+    const regExp = new RegExp(state.filter.split(/\s+/g).join("|"), "gi");
+    return regExp.test(item.name) || regExp.test(item.surname);
+  };
 
-  const getSortFunction = (fieldName = state.sort.propName, fieldType = state.sort.sortType, isReversed = state.sort.isReversed) => {
+  const getSortFunction = () => {
+    const { 
+      propName: fieldName,
+      fieldType = state.sort.sortType,
+      isReversed = state.sort.isReversed
+    } = state.sort;
     switch (fieldType) {
       case "string":
         return (a, b) => {
@@ -42,29 +49,38 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
 
   const setSort = (propName, sortType, isReversed) => {
     setState({ ...state, sort: { propName, sortType, isReversed } });
-  }
+  };
 
   const setFilter = (string) => {
     setState({ ...state, filter: string, currentPage: 0 });
-  }
+  };
 
   const setCurrentPage = (string) => {
     setState({ ...state, currentPage: Number(string) });
-  }
+  };
 
   const setItemsPerPage = (string) => {
     setState({ ...state, itemsPerPage: Number(string) });
-  }
+  };
 
-  const filteredData = useMemo(() => data.filter(handleFilter), [state.filter, data]);
-  const sortedData = state.sort ? filteredData.sort(getSortFunction()) : filteredData;
+  const filteredData = useMemo(() => data.filter(handleFilter), [
+    state.filter,
+    data,
+  ]);
 
+  const sortedData = state.sort
+    ? filteredData.sort(getSortFunction())
+    : filteredData;
 
   const result = sortedData.slice(itemsFrom, itemsTo);
-  const { currentPage } = state;
-  const { itemsPerPage } = state;
-  const { filter } = state;
+  const { currentPage, itemsPerPage,filter } = state;
   const countOfPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  useEffect(() => {
+    if (state.currentPage >= countOfPages && data.length) {
+      setState((prev) => ({ ...prev, currentPage: countOfPages - 1 }));
+    }
+  }, [countOfPages, data.length, state.currentPage]);
 
   return {
     result,
@@ -75,7 +91,7 @@ const useTable = (data, initialValue = { currentPage: 0, itemsPerPage: 10 }) => 
     countOfPages,
     currentPage,
     itemsPerPage,
-    filter
+    filter,
   };
 };
 
