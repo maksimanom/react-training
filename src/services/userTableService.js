@@ -6,15 +6,20 @@ export const getUsers = () => {
   return new Promise((res, rej) => {
     setTimeout(() => {
       res(usersArray);
-    }, 1500);
+    }, 500);
   });
 };
 
 export const editUser = (user) => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      console.log(user);
-    }, 1500);
+      const userIndex = usersArray.findIndex(
+        (userInArray) => userInArray.id === user.id
+      );
+      const newArray = [...usersArray];
+      newArray[userIndex] = user;
+      usersArray = newArray;
+    }, 100);
   });
 };
 

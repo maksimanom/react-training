@@ -75,18 +75,14 @@ const Table = () => {
   };
 
   const handleOpenEditUser = () => {
+    setUserDataChangeInput(modalSettings.user);
     setModalSettings((prev) => ({ ...prev, editingUser: true }));
   };
   const handleEditUserData = (field, value) => {
     setUserDataChangeInput((prev) => ({ ...prev, [field]: value }));
   };
-  const handleChangeUserDataClick = () => {
-    const newUser = {
-      id: modalSettings.user.id,
-      name: userDataChangeInput.name,
-      surname: userDataChangeInput.surname,
-    };
-    editUser(newUser);
+  const handleClickChangeUserData = (id) => {
+    editUser(userDataChangeInput);
     handleCloseModal();
   };
 
@@ -178,7 +174,8 @@ const Table = () => {
                   <EditUserWindow
                     user={modalSettings.user}
                     handleEditUserData={handleEditUserData}
-                    handleChangeUserDataClick={handleChangeUserDataClick}
+                    handleClickChangeUserData={handleClickChangeUserData}
+                    userDataChangeInput={userDataChangeInput}
                   />
                 ) : (
                   <>

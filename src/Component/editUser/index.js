@@ -1,10 +1,10 @@
 import React from "react";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Checkbox } from "@material-ui/core";
 
 export const EditUserWindow = ({
   user,
   handleEditUserData,
-  handleChangeUserDataClick,
+  handleClickChangeUserData,
 }) => {
   return (
     <div className="edit-user-window">
@@ -27,15 +27,15 @@ export const EditUserWindow = ({
         fullWidth
         onChange={(e) => handleEditUserData(e.target.name, e.target.value)}
       />
-      <TextField
+      <Checkbox
+        defaultChecked={user.working}
         name="working"
-        fullWidth
-        onChange={(e) => handleEditUserData(e.target.name, e.target.value)}
+        onClick={(e) => handleEditUserData(e.target.name, e.target.checked)}
       />
       <Button
         variant="contained"
         type="submit"
-        onClick={() => handleChangeUserDataClick()}
+        onClick={() => handleClickChangeUserData(user.id)}
       >
         Submit
       </Button>
