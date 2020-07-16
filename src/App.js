@@ -2,9 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CssBaseline, AppBar, Toolbar } from "@material-ui/core/";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
 import Modal from "./Component/modal";
 import Form from "./Component/form";
 import TableExample from "./Component/table/TableExample";
+import JsonTest from "./Component/jsonTest";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,12 +36,14 @@ const App = () => {
             <Link to="/modal">Modal</Link>
             <Link to="/form">Form</Link>
             <Link to="/table">Table</Link>
+            <Link to="/jsonTest">JSONPlaceholder data</Link>
           </Toolbar>
         </AppBar>
         <Switch>
           <Route exact path="/modal" component={Modal} />
           <Route path="/form" component={Form} />
           <Route path="/table" component={TableExample} />
+          <Route path="/jsonTest" component={JsonTest} />
         </Switch>
       </Grid>
     </Router>
