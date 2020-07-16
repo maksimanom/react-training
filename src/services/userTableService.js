@@ -20,7 +20,6 @@ export const editUser = (user) => {
       const newArray = [...usersArray];
       newArray[userIndex] = user;
       usersArray = newArray;
-      console.log(user);
     }, 100);
   });
 };

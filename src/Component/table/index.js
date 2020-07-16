@@ -14,9 +14,8 @@ import { Pagination } from "../pagination";
 import Portal from "../portal";
 import { EditUserWindow } from "../editUser";
 
-const Table = () => {
+const Table = ({ headerData, usersArray, setUsersArray }) => {
   const classes = useStyles();
-  const [usersArray, setUsersArray] = useState([]);
   const [serverError, setServerError] = React.useState(false);
   const [userDataChangeInput, setUserDataChangeInput] = useState({});
 
@@ -28,13 +27,6 @@ const Table = () => {
     .catch(() => {
       setServerError(true);
     });
-
-  const headerData = [
-    { label: "Name", propType: "string", propName: "name" },
-    { label: "Surname", propType: "string", propName: "surname" },
-    { label: "Age", propType: "number", propName: "age" },
-    { label: "Currently working", propType: "boolean", propName: "working" },
-  ];
 
   const {
     result,

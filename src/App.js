@@ -4,7 +4,7 @@ import { Grid, CssBaseline, AppBar, Toolbar } from "@material-ui/core/";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Modal from "./Component/modal";
 import Form from "./Component/form";
-import Table from "./Component/table/";
+import TableExample from "./Component/table/TableExample";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +39,7 @@ const App = () => {
         <Switch>
           <Route exact path="/modal" component={Modal} />
           <Route path="/form" component={Form} />
-          <Route path="/table" component={Table} />
+          <Route path="/table" component={TableExample} />
         </Switch>
       </Grid>
     </Router>
